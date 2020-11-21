@@ -1,0 +1,174 @@
+import pygame
+from pygame.font import Font
+
+from .screen import Screen
+from utils import Kana, Settings
+
+
+class GameScreen(Screen):
+    def __init__(self, render_surface, surface_size):
+        Screen.__init__(self, render_surface, surface_size)
+
+        # the surface where the user draws on
+        self.drawing_surface = pygame.Surface(self.surface_size)
+        self._clear_drawing_surface()
+
+        self.kana = Kana("hiragana")
+        self.value = 0
+        self.index = 0
+
+        self.stroke_width = Settings.get("stroke_width")
+
+        # ingame parameters
+        self.font = Font(None, 100)
+        self.pos = (0, 0)
+        self.mouse_down = False
+        self.state = "draw"
+
+    def update(self, delta_time):
+        Screen.update(self, delta_time)
+
+    def key_press(self, event):
+        Screen.key_press(self, event)
+
+        if self.state == "draw":
+            self._draw_done()
+        elif self.state == "verify":
+            self._verify_done()
+
+    def _draw_done(self):
+        self.state = "verify"
+
+    def _verify_done(self):
+        self.state = "draw"
+        self._clear_drawing_surface()
+
+        self.index += 1
+        if self.index >= len(self.kana.table):
+            self.index = 0
+
+    def mouse_event(self, event):
+        Screen.mouse_event(self, event)
+
+        # if we're inside the Done rect, don't perform the drawing
+        if self.state == "draw":
+            if self.inside_rect(self._s2r(event.pos), (860, 490), (1060, 690)):
+                if event.type == pygame.MOUSEBUTTONUP:
+                    self._draw_done()
+                return
+        if self.state == "verify":
+            if self.inside_rect(self._s2r(event.pos), (860, 490), (1060, 690)):
+                if event.type == pygame.MOUSEBUTTONUP:
+                    self._verify_done()
+                return
+
+        # update the line drawing
+        if pygame.mouse.get_pressed(num_buttons=3)[0]:
+            self._draw_line(self.pos, event.pos)
+        self.pos = event.pos
+
+    def _clamp_pos(self, pos):
+        x = max(pos[0], 100 + self.stroke_width)
+        x = min(x, 760 - self.stroke_width)
+        y = max(pos[1], 260 + self.stroke_width)
+        y = min(y, 920 - self.stroke_width)
+        return (x, y)
+
+    def _s2r(self, pos):
+        # convert screen coordinate/pos to render surface coordinate/pos
+        x = pos[0] * self.surface_size[0] / self.screen_size[0]
+        y = pos[1] * self.surface_size[1] / self.screen_size[1]
+        return (x, y)
+
+    def _r2s(self, pos):
+        # convert render surface coordinate/pos to screen coordinate/pos
+        x = pos[0] * self.screen_size[0] / self.surface_size[0]
+        y = pos[1] * self.screen_size[1] / self.surface_size[1]
+        return (x, y)
+
+    def _draw_line(self, pos1, pos2):
+        p1 = self._s2r(pos1)
+        p2 = self._s2r(pos2)
+        return self._draw_polygon(self._clamp_pos(p1), self._clamp_pos(p2))
+
+    def _draw_polygon(self, pos1, pos2):
+        # TODO: refactor this into drawing 2 tangent closing lines between
+        # the circles
+        a = [
+            (pos1[0] + self.stroke_width // 2, pos1[1]),
+            (pos2[0] + self.stroke_width // 2, pos2[1]),
+            (pos2[0] - self.stroke_width // 2, pos2[1]),
+            (pos1[0] - self.stroke_width // 2, pos1[1]),
+        ]
+        b = [
+            (pos1[0], pos1[1] + self.stroke_width // 2),
+            (pos2[0], pos2[1] + self.stroke_width // 2),
+            (pos2[0], pos2[1] - self.stroke_width // 2),
+            (pos1[0], pos1[1] - self.stroke_width // 2),
+        ]
+        pygame.draw.polygon(self.drawing_surface, (0, 0, 255), a)
+        pygame.draw.polygon(self.drawing_surface, (0, 0, 255), b)
+
+        self._pg_draw_circle(pos1, self.stroke_width // 2, (0, 0, 255))
+        self._pg_draw_circle(pos2, self.stroke_width // 2, (0, 0, 255))
+
+    def _clear_drawing_surface(self):
+        self.drawing_surface.fill((255, 255, 255, 0))
+        self.drawing_surface = self.drawing_surface.convert_alpha()
+        self.drawing_surface.fill((0, 0, 0, 0))
+
+    def _draw_centered_text(self, text, center_coord, color=(0, 0, 0)):
+        text = self.font.render(text, True, color)
+        text_rect = text.get_rect()
+        text_rect.center = center_coord
+        self.render_surface.blit(text, text_rect)
+
+    def draw(self):
+        Screen.draw(self)
+
+        # always draw a bounding box where the user should draw in
+        self._pg_draw_line((430, 260), (430, 920), 10, (200, 200, 200))
+        self._pg_draw_line((100, 590), (760, 590), 10, (200, 200, 200))
+        self._pg_draw_rect((100, 260, 660, 660), 10)
+
+        # also always render the drawing surface
+        self.render_surface.blit(self.drawing_surface, (0, 0))
+
+        # and the line below the text
+        self._pg_draw_line((0, 100), (1920, 100), 10)
+
+        if self.state == "draw":
+            # add message to user to draw character
+            self._draw_centered_text(
+                f"Draw the {self.kana.table_name} "
+                f"character for {self.kana.characters[self.index]}",
+                (1920 / 2, 50),
+            )
+            self._pg_draw_rect((860, 490, 200, 200), 10)
+            self._draw_centered_text("Done", (960, 590))
+        elif self.state == "verify":
+            # draw character here
+            character = self.kana.table[self.kana.characters[self.index]]
+            # the +/- 10 offsets remove the kana-table borders
+            character_rect = (
+                character["x"] + 10,
+                character["y"],
+                self.kana.size_x - 10,
+                self.kana.size_y - 10,
+            )
+            self.render_surface.blit(
+                self.kana.asset, (1260, 260), character_rect,
+            )
+            self._pg_draw_rect((860, 490, 200, 200), 10)
+            self._draw_centered_text("Done", (960, 590))
+
+    def _pg_draw_line(self, top_left, bot_right, width, color=(0, 0, 0)):
+        pygame.draw.line(
+            self.render_surface, color, top_left, bot_right, width
+        )
+
+    def _pg_draw_rect(self, rect, width, color=(0, 0, 0)):
+        pygame.draw.rect(self.render_surface, color, rect, width)
+
+    def _pg_draw_circle(self, center, radius, color=(0, 0, 0)):
+        pygame.draw.circle(self.drawing_surface, color, center, radius)
