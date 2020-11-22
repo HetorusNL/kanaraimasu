@@ -20,9 +20,8 @@ class GameScreen(Screen):
         self.stroke_width = Settings.get("stroke_width")
 
         # ingame parameters
-        self.font = Font(None, 100)
+        self.fonts = {"100": Font(None, 100)}
         self.pos = (0, 0)
-        self.mouse_down = False
         self.state = "draw"
 
     def update(self, delta_time):
@@ -52,11 +51,19 @@ class GameScreen(Screen):
 
         # if we're inside the Done rect, don't perform the drawing
         if self.state == "draw":
+            if self.inside_rect(self._s2r(event.pos), (860, 290), (1060, 440)):
+                if event.type == pygame.MOUSEBUTTONUP:
+                    self._clear_drawing_surface()
+                return
             if self.inside_rect(self._s2r(event.pos), (860, 490), (1060, 690)):
                 if event.type == pygame.MOUSEBUTTONUP:
                     self._draw_done()
                 return
         if self.state == "verify":
+            if self.inside_rect(self._s2r(event.pos), (860, 290), (1060, 440)):
+                if event.type == pygame.MOUSEBUTTONUP:
+                    self._verify_done()
+                return
             if self.inside_rect(self._s2r(event.pos), (860, 490), (1060, 690)):
                 if event.type == pygame.MOUSEBUTTONUP:
                     self._verify_done()
@@ -117,10 +124,12 @@ class GameScreen(Screen):
         self.drawing_surface = self.drawing_surface.convert_alpha()
         self.drawing_surface.fill((0, 0, 0, 0))
 
-    def _draw_centered_text(self, text, center_coord, color=(0, 0, 0)):
-        text = self.font.render(text, True, color)
+    def _draw_centered_text(self, text, center, color=(0, 0, 0), size=100):
+        if not self.fonts.get(str(size)):
+            self.fonts[str(size)] = Font(None, size)
+        text = self.fonts[str(size)].render(text, True, color)
         text_rect = text.get_rect()
-        text_rect.center = center_coord
+        text_rect.center = center
         self.render_surface.blit(text, text_rect)
 
     def draw(self):
@@ -140,13 +149,21 @@ class GameScreen(Screen):
         if self.state == "draw":
             # add message to user to draw character
             self._draw_centered_text(
-                f"Draw the {self.kana.table_name} "
-                f"character for {self.kana.characters[self.index]}",
+                f"Draw the {self.kana.table_name} character "
+                f"for {self.kana.characters[self.index].upper()}",
                 (1920 / 2, 50),
             )
+            self._pg_draw_rect((860, 290, 200, 150), 10)
+            self._draw_centered_text("Clear", (960, 365), size=90)
             self._pg_draw_rect((860, 490, 200, 200), 10)
             self._draw_centered_text("Done", (960, 590))
         elif self.state == "verify":
+            # add message to user to verify character
+            self._draw_centered_text(
+                f"Verify the {self.kana.table_name} character "
+                f"for {self.kana.characters[self.index].upper()}",
+                (1920 / 2, 50),
+            )
             # draw character here
             character = self.kana.table[self.kana.characters[self.index]]
             # the +/- 10 offsets remove the kana-table borders
@@ -159,8 +176,10 @@ class GameScreen(Screen):
             self.render_surface.blit(
                 self.kana.asset, (1260, 260), character_rect,
             )
-            self._pg_draw_rect((860, 490, 200, 200), 10)
-            self._draw_centered_text("Done", (960, 590))
+            self._pg_draw_rect((860, 290, 200, 150), 10, (100, 0, 0))
+            self._draw_centered_text("Wrong", (960, 365), (100, 0, 0), size=80)
+            self._pg_draw_rect((860, 490, 200, 200), 10, (0, 100, 0))
+            self._draw_centered_text("Good", (960, 590), (0, 100, 0))
 
     def _pg_draw_line(self, top_left, bot_right, width, color=(0, 0, 0)):
         pygame.draw.line(
