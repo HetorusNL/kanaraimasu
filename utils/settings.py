@@ -3,8 +3,8 @@ import json
 
 class Settings:
     defaults = {
-        "width": 1920,
-        "height": 1080,
+        "width": 1280,
+        "height": 720,
         "fullscreen": False,
         "fps": 60,
         "stroke_width": 10,
@@ -15,7 +15,7 @@ class Settings:
         settings = cls.load_settings_file()
 
         # try to get the setting from the file
-        if settings.get(setting):
+        if settings.get(setting) is not None:
             value = settings.get(setting)
         else:
             # otherwise return default value if provided

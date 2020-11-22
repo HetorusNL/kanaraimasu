@@ -18,7 +18,6 @@ class Kanaraimasu:
     def __init__(self):
         # initialize the game parameters
         self.fps = Settings.get("fps")
-        pygame.event.pump = lambda: print("FUNCTION CALLED!")
 
         # initialize the screen and render surfaces
         width = Settings.get("width")

@@ -4,3 +4,6 @@
 # ignore the generated python cache folders
 __pycache__/
 */__pycache__/
+
+# don't store the user-specific settings file in repo
+settings.json
