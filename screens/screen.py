@@ -19,9 +19,14 @@ class Screen:
     def set_screen_size(self, screen_size):
         self.screen_size = screen_size
 
-    def inside_rect(self, pos, top_left, bot_right):
-        # check that pos is within the top_left and bot_right rectanble for x&y
-        return all(
-            pos[i] >= top_left[i] and pos[i] <= bot_right[i] for i in range(2)
-        )
+    def s2r(self, pos):
+        # convert screen coordinate/pos to render surface coordinate/pos
+        x = pos[0] * self.surface_size[0] / self.screen_size[0]
+        y = pos[1] * self.surface_size[1] / self.screen_size[1]
+        return (x, y)
 
+    def r2s(self, pos):
+        # convert render surface coordinate/pos to screen coordinate/pos
+        x = pos[0] * self.screen_size[0] / self.surface_size[0]
+        y = pos[1] * self.screen_size[1] / self.surface_size[1]
+        return (x, y)

@@ -3,6 +3,7 @@ from pygame.font import Font
 
 from .screen import Screen
 from utils import Kana, Settings
+from widgets import Button, Heading
 
 
 class GameScreen(Screen):
@@ -23,6 +24,35 @@ class GameScreen(Screen):
         self.fonts = {"100": Font(None, 100)}
         self.pos = (0, 0)
         self.state = "draw"
+
+        # widgets that are always present
+        self.widgets = {
+            "heading": Heading(self.render_surface, (0, 0, 1920, 100)),
+            "button_menu": Button(
+                self.render_surface, (10, 10, 230, 80), "Menu"
+            ),
+        }
+
+        # widgets in draw state
+        self.clear_button = Button(
+            self.render_surface, (860, 290, 200, 150), "Clear"
+        ).set_font_size(90)
+        self.done_button = Button(
+            self.render_surface, (860, 490, 200, 200), "Done"
+        )
+
+        # widgets in the verify state
+        self.wrong_button = Button(
+            self.render_surface, (860, 290, 200, 150), "Wrong", (100, 0, 0)
+        ).set_font_size(80)
+        self.good_button = Button(
+            self.render_surface, (860, 490, 200, 200), "Good", (0, 100, 0)
+        )
+
+        self.state_widgets = {
+            "draw": [self.clear_button, self.done_button],
+            "verify": [self.wrong_button, self.good_button],
+        }
 
     def update(self, delta_time):
         Screen.update(self, delta_time)
@@ -49,22 +79,26 @@ class GameScreen(Screen):
     def mouse_event(self, event):
         Screen.mouse_event(self, event)
 
+        if event.type == pygame.MOUSEBUTTONUP:
+            if self.widgets["button_menu"].rect_hit(self.s2r(event.pos)):
+                return {"screen_id": "menuscreen"}
+
         # if we're inside the Done rect, don't perform the drawing
         if self.state == "draw":
-            if self.inside_rect(self._s2r(event.pos), (860, 290), (1060, 440)):
+            if self.clear_button.rect_hit(self.s2r(event.pos)):
                 if event.type == pygame.MOUSEBUTTONUP:
                     self._clear_drawing_surface()
                 return
-            if self.inside_rect(self._s2r(event.pos), (860, 490), (1060, 690)):
+            if self.done_button.rect_hit(self.s2r(event.pos)):
                 if event.type == pygame.MOUSEBUTTONUP:
                     self._draw_done()
                 return
         if self.state == "verify":
-            if self.inside_rect(self._s2r(event.pos), (860, 290), (1060, 440)):
+            if self.wrong_button.rect_hit(self.s2r(event.pos)):
                 if event.type == pygame.MOUSEBUTTONUP:
                     self._verify_done()
                 return
-            if self.inside_rect(self._s2r(event.pos), (860, 490), (1060, 690)):
+            if self.good_button.rect_hit(self.s2r(event.pos)):
                 if event.type == pygame.MOUSEBUTTONUP:
                     self._verify_done()
                 return
@@ -81,21 +115,9 @@ class GameScreen(Screen):
         y = min(y, 920 - self.stroke_width)
         return (x, y)
 
-    def _s2r(self, pos):
-        # convert screen coordinate/pos to render surface coordinate/pos
-        x = pos[0] * self.surface_size[0] / self.screen_size[0]
-        y = pos[1] * self.surface_size[1] / self.screen_size[1]
-        return (x, y)
-
-    def _r2s(self, pos):
-        # convert render surface coordinate/pos to screen coordinate/pos
-        x = pos[0] * self.screen_size[0] / self.surface_size[0]
-        y = pos[1] * self.screen_size[1] / self.surface_size[1]
-        return (x, y)
-
     def _draw_line(self, pos1, pos2):
-        p1 = self._s2r(pos1)
-        p2 = self._s2r(pos2)
+        p1 = self.s2r(pos1)
+        p2 = self.s2r(pos2)
         return self._draw_polygon(self._clamp_pos(p1), self._clamp_pos(p2))
 
     def _draw_polygon(self, pos1, pos2):
@@ -124,14 +146,6 @@ class GameScreen(Screen):
         self.drawing_surface = self.drawing_surface.convert_alpha()
         self.drawing_surface.fill((0, 0, 0, 0))
 
-    def _draw_centered_text(self, text, center, color=(0, 0, 0), size=100):
-        if not self.fonts.get(str(size)):
-            self.fonts[str(size)] = Font(None, size)
-        text = self.fonts[str(size)].render(text, True, color)
-        text_rect = text.get_rect()
-        text_rect.center = center
-        self.render_surface.blit(text, text_rect)
-
     def draw(self):
         Screen.draw(self)
 
@@ -143,43 +157,30 @@ class GameScreen(Screen):
         # also always render the drawing surface
         self.render_surface.blit(self.drawing_surface, (0, 0))
 
-        # and the line below the text
-        self._pg_draw_line((0, 100), (1920, 100), 10)
-
         if self.state == "draw":
             # add message to user to draw character
-            self._draw_centered_text(
+            self.widgets["heading"].set_text(
                 f"Draw the {self.kana.table_name} character "
-                f"for {self.kana.characters[self.index].upper()}",
-                (1920 / 2, 50),
+                f"for {self.kana.characters[self.index].upper()}"
             )
-            self._pg_draw_rect((860, 290, 200, 150), 10)
-            self._draw_centered_text("Clear", (960, 365), size=90)
-            self._pg_draw_rect((860, 490, 200, 200), 10)
-            self._draw_centered_text("Done", (960, 590))
         elif self.state == "verify":
             # add message to user to verify character
-            self._draw_centered_text(
+            self.widgets["heading"].set_text(
                 f"Verify the {self.kana.table_name} character "
-                f"for {self.kana.characters[self.index].upper()}",
-                (1920 / 2, 50),
+                f"for {self.kana.characters[self.index].upper()}"
             )
             # draw character here
             character = self.kana.table[self.kana.characters[self.index]]
-            # the +/- 10 offsets remove the kana-table borders
-            character_rect = (
-                character["x"] + 10,
-                character["y"],
-                self.kana.size_x - 10,
-                self.kana.size_y - 10,
-            )
             self.render_surface.blit(
-                self.kana.asset, (1260, 260), character_rect,
+                self.kana.asset, (1260, 260), character["rect"],
             )
-            self._pg_draw_rect((860, 290, 200, 150), 10, (100, 0, 0))
-            self._draw_centered_text("Wrong", (960, 365), (100, 0, 0), size=80)
-            self._pg_draw_rect((860, 490, 200, 200), 10, (0, 100, 0))
-            self._draw_centered_text("Good", (960, 590), (0, 100, 0))
+
+        # render the widgets
+        for widget_id, widget in self.widgets.items():
+            widget.render()
+        # render the state widgets
+        for widget in self.state_widgets[self.state]:
+            widget.render()
 
     def _pg_draw_line(self, top_left, bot_right, width, color=(0, 0, 0)):
         pygame.draw.line(

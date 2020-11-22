@@ -4,7 +4,7 @@ import sys
 import time
 
 from utils import Settings
-from screens import GameScreen, Screen
+from screens import GameScreen, MenuScreen, SettingsScreen
 
 try:
     pygame.mixer.init(buffer=512)
@@ -33,10 +33,13 @@ class Kanaraimasu:
 
         # initialize the screens
         self.screens = {
-            "default": Screen(self.render_surface, self.render_size),
             "gamescreen": GameScreen(self.render_surface, self.render_size),
+            "menuscreen": MenuScreen(self.render_surface, self.render_size),
+            "settingsscreen": SettingsScreen(
+                self.render_surface, self.render_size
+            ),
         }
-        self.screen_id = "gamescreen"
+        self.screen_id = "menuscreen"
         # sets the screen size in all screens
         self.set_screen_size(self.screen_size)
 
@@ -74,6 +77,8 @@ class Kanaraimasu:
                 pygame.time.delay(int(target_sleep - delta))
 
     def process_event_loop(self):
+        self.results = {}
+        screen = self.screens[self.screen_id]
         for event in pygame.event.get():
             # handle closing the window
             if event.type == pygame.QUIT:
@@ -89,14 +94,24 @@ class Kanaraimasu:
                 self.set_screen_size(self.pg_screen.get_size())
             # handle key presses
             elif event.type == pygame.KEYDOWN:
-                self.screens[self.screen_id].key_press(event)
+                self.add_result(screen.key_press(event))
             # handle mouse presses/releases/moves
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                self.screens[self.screen_id].mouse_event(event)
+                self.add_result(screen.mouse_event(event))
             elif event.type == pygame.MOUSEBUTTONUP:
-                self.screens[self.screen_id].mouse_event(event)
+                self.add_result(screen.mouse_event(event))
             elif event.type == pygame.MOUSEMOTION:
-                self.screens[self.screen_id].mouse_event(event)
+                self.add_result(screen.mouse_event(event))
+
+        self.process_results()
+
+    def add_result(self, result):
+        if result:
+            self.results = {**self.results, **result}
+
+    def process_results(self,):
+        if self.results.get("screen_id"):
+            self.screen_id = self.results["screen_id"]
 
     def set_screen_size(self, screen_size):
         self.screen_size = screen_size

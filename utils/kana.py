@@ -69,11 +69,11 @@ class Kana:
         }
         self.characters = list(self.table.keys())
 
-        # set kana offsets within picture
+        # set kana image size, within the asset, in pixels
         self.size_x = 500
         self.size_y = 625
 
-        # reset the kana table to default (all selected and add table_name)
+        # reset the kana table to default and precalculate some properties
         self._reset_kana()
 
     def _reset_kana(self):
@@ -82,3 +82,11 @@ class Kana:
             self.table[character]["y"] *= self.size_y
             self.table[character]["table_name"] = self.table_name
             self.table[character]["selected"] = True  # TODO: settings file
+
+            # calculate rect; the +/- 10 offsets remove the kana-table borders
+            self.table[character]["rect"] = (
+                self.table[character]["x"] + 10,
+                self.table[character]["y"],
+                self.size_x - 10,
+                self.size_y - 10,
+            )
