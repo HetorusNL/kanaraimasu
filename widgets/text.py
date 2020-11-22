@@ -46,6 +46,7 @@ class Text(Widget):
 
     def set_align(self, align):
         self.align = align
+        return self
 
     # basic functions for the widget
     def render(self):
