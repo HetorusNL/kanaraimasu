@@ -12,6 +12,8 @@ class Settings:
         "randomize_kana": True,
         "learn_hiragana": False,
         "learn_katakana": False,
+        "hiragana_kana": [],
+        "katakana_kana": [],
     }
 
     @classmethod

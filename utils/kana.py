@@ -67,6 +67,28 @@ class Kana:
             "wo": {"x": 1, "y": 5},
             "n": {"x": 0, "y": 1},
         }
+        # table with all rows in the table
+        self.row_table = {
+            "-a": {"x": 11, "y": 1},
+            "-i": {"x": 11, "y": 2},
+            "-u": {"x": 11, "y": 3},
+            "-e": {"x": 11, "y": 4},
+            "-o": {"x": 11, "y": 5},
+        }
+        # table with all columns in the table
+        self.col_table = {
+            "-": {"x": 10, "y": 0},
+            "k-": {"x": 9, "y": 0},
+            "s-": {"x": 8, "y": 0},
+            "t-": {"x": 7, "y": 0},
+            "n-": {"x": 6, "y": 0},
+            "h-": {"x": 5, "y": 0},
+            "m-": {"x": 4, "y": 0},
+            "y-": {"x": 3, "y": 0},
+            "r-": {"x": 2, "y": 0},
+            "w-": {"x": 1, "y": 0},
+            "n": {"x": 0, "y": 0},
+        }
         self.characters = list(self.table.keys())
 
         # set kana image size, within the asset, in pixels
@@ -78,15 +100,21 @@ class Kana:
 
     def _reset_kana(self):
         for character in self.characters:
-            self.table[character]["x"] *= self.size_x
-            self.table[character]["y"] *= self.size_y
-            self.table[character]["table_name"] = self.table_name
-            self.table[character]["selected"] = True  # TODO: settings file
+            self._reset_character(self.table, character)
+        for character in list(self.row_table.keys()):
+            self._reset_character(self.row_table, character)
+        for character in list(self.col_table.keys()):
+            self._reset_character(self.col_table, character)
 
-            # calculate rect; the +/- 10 offsets remove the kana-table borders
-            self.table[character]["rect"] = (
-                self.table[character]["x"] + 10,
-                self.table[character]["y"],
-                self.size_x - 10,
-                self.size_y - 10,
-            )
+    def _reset_character(self, table, name):
+        table[name]["x"] *= self.size_x
+        table[name]["y"] *= self.size_y
+        table[name]["table_name"] = self.table_name
+
+        # calculate rect; the +/- 10 offsets remove the kana-table borders
+        table[name]["rect"] = (
+            table[name]["x"] + 10,
+            table[name]["y"],
+            self.size_x - 10,
+            self.size_y - 10,
+        )

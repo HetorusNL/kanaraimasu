@@ -4,7 +4,8 @@ import sys
 import time
 
 from utils import Settings
-from screens import GameScreen, MenuScreen, SettingsScreen
+from screens import GameScreen, KanaSelectScreen, MenuScreen, SettingsScreen
+from widgets import Text
 
 try:
     pygame.mixer.init(buffer=512)
@@ -34,9 +35,17 @@ class Kanaraimasu:
         self.render_size = (1920, 1080)
         self.render_surface = pygame.Surface(self.render_size)
 
+        self.show_splash_screen()
+
         # initialize the screens
         self.screens = {
             "gamescreen": GameScreen(self.render_surface, self.render_size),
+            "kanaselectscreenhiragana": KanaSelectScreen(
+                self.render_surface, self.render_size, "hiragana"
+            ),
+            "kanaselectscreenkatakana": KanaSelectScreen(
+                self.render_surface, self.render_size, "katakana"
+            ),
             "menuscreen": MenuScreen(self.render_surface, self.render_size),
             "settingsscreen": SettingsScreen(
                 self.render_surface, self.render_size
@@ -65,14 +74,9 @@ class Kanaraimasu:
         self.screens[self.screen_id].update(time_delta)
         self.screens[self.screen_id].draw()
 
-        self.pg_screen.blit(
-            pygame.transform.smoothscale(
-                self.render_surface, self.screen_size
-            ),
-            (0, 0),
-        )
+        # this draws the render_surface onto the pg_screen
+        self.render()
 
-        pygame.display.update()
         if self.fps != 0:
             target_sleep = 1000 / self.fps
             delta = (time.time() - self.game_time) * 1000
@@ -129,6 +133,24 @@ class Kanaraimasu:
         Settings.set("height", self.screen_size[1])
         for screen_id, screen in self.screens.items():
             screen.set_screen_size(self.screen_size)
+
+    def render(self):
+        self.pg_screen.blit(
+            pygame.transform.smoothscale(
+                self.render_surface, self.screen_size
+            ),
+            (0, 0),
+        )
+
+        pygame.display.update()
+
+    def show_splash_screen(self):
+        self.render_surface.fill((255, 255, 255))
+        Text(
+            self.render_surface, (0, 200, 1920, 400), "Kanaraimasu"
+        ).set_font_size(200).render()
+        Text(self.render_surface, (0, 700, 1920, 200), "Loading...").render()
+        self.render()
 
     def s2r(self, pos):
         # convert screen coordinate/pos to render surface coordinate/pos

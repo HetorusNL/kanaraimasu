@@ -12,18 +12,24 @@ class Checkbox(Text):
         color=(0, 0, 0),
         width=10,
         align=Text.ALIGN_CENTER,
+        box_only=False,
         bounding_box=False,
     ):
-        r = pygame.Rect(rect)
-        print(r)
         self.full_rect = pygame.Rect(rect)
-        # create rect for the checkbox itself
-        self.square_rect = pygame.Rect(r.x, r.y, r.h, r.h)
-        # subtract the square checkbox (and 25%) from the text rect
-        rect = (r.x + r.h + r.h * 0.25, r.y, r.w - r.h, r.h)
-        Text.__init__(
-            self, surface, rect, text, color, width, Text.ALIGN_LEFT_CENTER
-        )
+        if box_only:
+            # render only a box over the full rect provided
+            self.square_rect = self.full_rect
+            Text.__init__(self, surface, rect, text, color, width)
+        else:
+            # render a square box and the text behind that
+            r = pygame.Rect(rect)
+            # create rect for the checkbox itself
+            self.square_rect = pygame.Rect(r.x, r.y, r.h, r.h)
+            # subtract the square checkbox (and 25%) from the text rect
+            rect = (r.x + r.h + r.h * 0.25, r.y, r.w - r.h, r.h)
+            Text.__init__(
+                self, surface, rect, text, color, width, Text.ALIGN_LEFT_CENTER
+            )
 
         # the two lines that make a cross in the checkbox
         sr = self.square_rect  # use small variable name here
@@ -43,6 +49,10 @@ class Checkbox(Text):
 
     def set_rect_color(self, color):
         self.rect_color = color
+        return self
+
+    def set_selected(self, selected):
+        self.selected = selected
         return self
 
     # basic functions for the widget

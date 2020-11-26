@@ -1,5 +1,4 @@
 import pygame
-from pygame.font import Font
 
 from .screen import Screen
 from widgets import Button, Heading

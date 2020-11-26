@@ -93,7 +93,8 @@ class SettingsScreen(Screen):
                     # checkbox is hit, save the new setting
                     Settings.set(kana_widget["setting"], checkbox.selected)
                 # check whether the buttons are hit
-                # TODO
+                if kana_widget["button"].rect_hit(event.pos):
+                    return {"screen_id": f"kanaselectscreen{kana_widget_id}"}
 
             for checkbox_widget_id, checkbox_widget in self.checkboxes.items():
                 checkbox = checkbox_widget["checkbox"]
