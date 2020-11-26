@@ -50,6 +50,9 @@ class KanaSelectScreen(Screen):
         for col_name, data in self.kana.col_table.items():
             self.col_checkboxes[col_name] = gen_checkbox(col_name, data)
 
+        # update the rows and columns which could be wrong by default
+        self._update_kana()
+
     def update(self, delta_time):
         Screen.update(self, delta_time)
 
