@@ -18,15 +18,3 @@ class Screen:
 
     def set_screen_size(self, screen_size):
         self.screen_size = screen_size
-
-    def s2r(self, pos):
-        # convert screen coordinate/pos to render surface coordinate/pos
-        x = pos[0] * self.surface_size[0] / self.screen_size[0]
-        y = pos[1] * self.surface_size[1] / self.screen_size[1]
-        return (x, y)
-
-    def r2s(self, pos):
-        # convert render surface coordinate/pos to screen coordinate/pos
-        x = pos[0] * self.screen_size[0] / self.surface_size[0]
-        y = pos[1] * self.screen_size[1] / self.surface_size[1]
-        return (x, y)

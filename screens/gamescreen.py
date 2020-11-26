@@ -80,25 +80,25 @@ class GameScreen(Screen):
         Screen.mouse_event(self, event)
 
         if event.type == pygame.MOUSEBUTTONUP:
-            if self.widgets["button_menu"].rect_hit(self.s2r(event.pos)):
+            if self.widgets["button_menu"].rect_hit(event.pos):
                 return {"screen_id": "menuscreen"}
 
         # if we're inside the Done rect, don't perform the drawing
         if self.state == "draw":
-            if self.clear_button.rect_hit(self.s2r(event.pos)):
+            if self.clear_button.rect_hit(event.pos):
                 if event.type == pygame.MOUSEBUTTONUP:
                     self._clear_drawing_surface()
                 return
-            if self.done_button.rect_hit(self.s2r(event.pos)):
+            if self.done_button.rect_hit(event.pos):
                 if event.type == pygame.MOUSEBUTTONUP:
                     self._draw_done()
                 return
         if self.state == "verify":
-            if self.wrong_button.rect_hit(self.s2r(event.pos)):
+            if self.wrong_button.rect_hit(event.pos):
                 if event.type == pygame.MOUSEBUTTONUP:
                     self._verify_done()
                 return
-            if self.good_button.rect_hit(self.s2r(event.pos)):
+            if self.good_button.rect_hit(event.pos):
                 if event.type == pygame.MOUSEBUTTONUP:
                     self._verify_done()
                 return
@@ -116,9 +116,7 @@ class GameScreen(Screen):
         return (x, y)
 
     def _draw_line(self, pos1, pos2):
-        p1 = self.s2r(pos1)
-        p2 = self.s2r(pos2)
-        return self._draw_polygon(self._clamp_pos(p1), self._clamp_pos(p2))
+        return self._draw_polygon(self._clamp_pos(pos1), self._clamp_pos(pos2))
 
     def _draw_polygon(self, pos1, pos2):
         # TODO: refactor this into drawing 2 tangent closing lines between

@@ -7,7 +7,7 @@ class Widget:
         self.surface = surface
         self.rect = pygame.Rect(rect)
 
-    # setters for the properties, they  return self so are chainable
+    # setters for the properties, they return self so are chainable
     def set_rect(self, rect):
         self.rect = pygame.Rect(rect)
         return self

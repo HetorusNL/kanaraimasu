@@ -16,6 +16,9 @@ pygame.init()
 
 class Kanaraimasu:
     def __init__(self):
+        # set the display name
+        pygame.display.set_caption("Kanaraimasu - Learn to draw kana")
+
         # initialize the game parameters
         self.fps = Settings.get("fps")
 
@@ -97,13 +100,20 @@ class Kanaraimasu:
                 self.add_result(screen.key_press(event))
             # handle mouse presses/releases/moves
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                event = self.set_render_mouse_pos(event)
                 self.add_result(screen.mouse_event(event))
             elif event.type == pygame.MOUSEBUTTONUP:
+                event = self.set_render_mouse_pos(event)
                 self.add_result(screen.mouse_event(event))
             elif event.type == pygame.MOUSEMOTION:
+                event = self.set_render_mouse_pos(event)
                 self.add_result(screen.mouse_event(event))
 
         self.process_results()
+
+    def set_render_mouse_pos(self, event):
+        event.pos = self.s2r(event.pos)
+        return event
 
     def add_result(self, result):
         if result:
@@ -119,6 +129,18 @@ class Kanaraimasu:
         Settings.set("height", self.screen_size[1])
         for screen_id, screen in self.screens.items():
             screen.set_screen_size(self.screen_size)
+
+    def s2r(self, pos):
+        # convert screen coordinate/pos to render surface coordinate/pos
+        x = pos[0] * self.render_size[0] / self.screen_size[0]
+        y = pos[1] * self.render_size[1] / self.screen_size[1]
+        return (x, y)
+
+    def r2s(self, pos):
+        # convert render surface coordinate/pos to screen coordinate/pos
+        x = pos[0] * self.screen_size[0] / self.render_size[0]
+        y = pos[1] * self.screen_size[1] / self.render_size[1]
+        return (x, y)
 
 
 if __name__ == "__main__":

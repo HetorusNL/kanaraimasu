@@ -30,9 +30,9 @@ class MenuScreen(Screen):
     def mouse_event(self, event):
         Screen.mouse_event(self, event)
         if event.type == pygame.MOUSEBUTTONUP:
-            if self.widgets["button_play"].rect_hit(self.s2r(event.pos)):
+            if self.widgets["button_play"].rect_hit(event.pos):
                 return {"screen_id": "gamescreen"}
-            if self.widgets["button_settings"].rect_hit(self.s2r(event.pos)):
+            if self.widgets["button_settings"].rect_hit(event.pos):
                 return {"screen_id": "settingsscreen"}
 
     def draw(self):

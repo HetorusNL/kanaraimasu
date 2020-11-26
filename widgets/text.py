@@ -27,7 +27,7 @@ class Text(Widget):
         self.align = align
         self.fonts = {}
 
-    # setters for the properties, they  return self so are chainable
+    # setters for the properties, they return self so are chainable
     def set_color(self, color):
         self.set_text_color(color)
         return self

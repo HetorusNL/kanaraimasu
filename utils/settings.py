@@ -8,6 +8,10 @@ class Settings:
         "fullscreen": False,
         "fps": 60,
         "stroke_width": 10,
+        "dark_theme": False,
+        "randomize_kana": True,
+        "learn_hiragana": False,
+        "learn_katakana": False,
     }
 
     @classmethod

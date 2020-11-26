@@ -16,7 +16,7 @@ class Heading(Text):
         Text.__init__(self, surface, rect, text, color, width, align)
         self.line_color = color
 
-    # setters for the properties, they  return self so are chainable
+    # setters for the properties, they return self so are chainable
     def set_color(self, color):
         Text.set_color(self, color)
         self.set_line_color(color)
