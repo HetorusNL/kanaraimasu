@@ -4,6 +4,9 @@ class Screen:
         self.surface_size = surface_size
         self.background_color = (255, 255, 255)
 
+    def prepare(self):
+        pass
+
     def draw(self):
         self.render_surface.fill(self.background_color)
 

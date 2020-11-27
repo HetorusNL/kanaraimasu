@@ -51,7 +51,7 @@ class Kanaraimasu:
                 self.render_surface, self.render_size
             ),
         }
-        self.screen_id = "menuscreen"
+        self.set_screen_id("menuscreen")
         # sets the screen size in all screens
         self.set_screen_size(self.screen_size)
 
@@ -123,9 +123,21 @@ class Kanaraimasu:
         if result:
             self.results = {**self.results, **result}
 
-    def process_results(self,):
+    def process_results(self):
         if self.results.get("screen_id"):
-            self.screen_id = self.results["screen_id"]
+            self.set_screen_id(self.results["screen_id"])
+
+    def set_screen_id(self, screen_id):
+        self.screen_id = screen_id
+
+        # TODO: temporary render the splash screen when gamescreen is loaded
+        # till the performance issue of loading the gamescreen is fixed
+        if self.screen_id == "gamescreen":
+            self.show_splash_screen()
+
+        # call prepare function so screens can do JIT (re)initialization
+        # before becomming active/visible
+        self.screens[self.screen_id].prepare()
 
     def set_screen_size(self, screen_size):
         self.screen_size = screen_size

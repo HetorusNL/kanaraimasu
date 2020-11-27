@@ -1,9 +1,10 @@
 import pygame
 from pygame.font import Font
+import random
 
 from .screen import Screen
 from utils import Kana, Settings
-from widgets import Button, Heading
+from widgets import Button, Heading, Text
 
 
 class GameScreen(Screen):
@@ -12,18 +13,11 @@ class GameScreen(Screen):
 
         # the surface where the user draws on
         self.drawing_surface = pygame.Surface(self.surface_size)
-        self._clear_drawing_surface()
-
-        self.kana = Kana("hiragana")
-        self.value = 0
-        self.index = 0
 
         self.stroke_width = Settings.get("stroke_width")
 
         # ingame parameters
-        self.fonts = {"100": Font(None, 100)}
         self.pos = (0, 0)
-        self.state = "draw"
 
         # widgets that are always present
         self.widgets = {
@@ -49,10 +43,52 @@ class GameScreen(Screen):
             self.render_surface, (860, 490, 200, 200), "Good", (0, 100, 0)
         )
 
+        # widgets in the done state
+        done_widgets = [
+            Text(
+                self.render_surface, (0, 400, 1920, 200), "Done!"
+            ).set_font_size(200),
+            Text(
+                self.render_surface,
+                (0, 650, 1920, 200),
+                "Go back to the menu to try again,",
+            ),
+            Text(
+                self.render_surface,
+                (0, 750, 1920, 200),
+                "or change the kana you want to learn",
+            ),
+        ]
+
         self.state_widgets = {
             "draw": [self.clear_button, self.done_button],
             "verify": [self.wrong_button, self.good_button],
+            "done": done_widgets,
         }
+
+    def prepare(self):
+        self.randomize_kana = Settings.get("randomize_kana")
+        # load the selected kana from the hiragana/katakana tables
+        self.selected_kana = []
+        kana_names = ["hiragana", "katakana"]
+        for kana_name in kana_names:
+            kana = Kana(kana_name)
+            for kana_name in Settings.get(f"{kana_name}_kana"):
+                self.selected_kana.append({"kana": kana, "name": kana_name})
+
+        # start with some initial index
+        if self.randomize_kana:
+            # if randomize, simply get a random index from the kana left
+            self.index = random.randint(0, len(self.selected_kana) - 1)
+        else:
+            # if not randomized, start at the first kana, index 0
+            self.index = 0
+
+        # get a reference to the current kana
+        self.kana = self.selected_kana[self.index]
+
+        self.state = "draw"
+        self._clear_drawing_surface()
 
     def update(self, delta_time):
         Screen.update(self, delta_time)
@@ -62,19 +98,34 @@ class GameScreen(Screen):
 
         if self.state == "draw":
             self._draw_done()
-        elif self.state == "verify":
-            self._verify_done()
 
     def _draw_done(self):
         self.state = "verify"
 
-    def _verify_done(self):
+    def _verify_done(self, correct):
         self.state = "draw"
         self._clear_drawing_surface()
 
-        self.index += 1
-        if self.index >= len(self.kana.table):
-            self.index = 0
+        # handle correctly drawn kana
+        if correct:
+            del self.selected_kana[self.index]
+            if len(self.selected_kana) == 0:
+                self.state = "done"
+                return
+
+        if self.randomize_kana:
+            # if randomize, simply get a random index from the kana left
+            self.index = random.randint(0, len(self.selected_kana) - 1)
+        else:
+            # if not randomized, increment index on correct
+            if not correct:
+                self.index += 1
+            # handle overflow of index
+            if self.index >= len(self.selected_kana):
+                self.index = 0
+
+        # get a reference to the current kana
+        self.kana = self.selected_kana[self.index]
 
     def mouse_event(self, event):
         Screen.mouse_event(self, event)
@@ -96,11 +147,11 @@ class GameScreen(Screen):
         if self.state == "verify":
             if self.wrong_button.rect_hit(event.pos):
                 if event.type == pygame.MOUSEBUTTONUP:
-                    self._verify_done()
+                    self._verify_done(False)
                 return
             if self.good_button.rect_hit(event.pos):
                 if event.type == pygame.MOUSEBUTTONUP:
-                    self._verify_done()
+                    self._verify_done(True)
                 return
 
         # update the line drawing
@@ -147,31 +198,25 @@ class GameScreen(Screen):
     def draw(self):
         Screen.draw(self)
 
-        # always draw a bounding box where the user should draw in
-        self._pg_draw_line((430, 260), (430, 920), 10, (200, 200, 200))
-        self._pg_draw_line((100, 590), (760, 590), 10, (200, 200, 200))
-        self._pg_draw_rect((100, 260, 660, 660), 10)
-
-        # also always render the drawing surface
-        self.render_surface.blit(self.drawing_surface, (0, 0))
-
         if self.state == "draw":
             # add message to user to draw character
             self.widgets["heading"].set_text(
-                f"Draw the {self.kana.table_name} character "
-                f"for {self.kana.characters[self.index].upper()}"
+                f'Draw the {self.kana["kana"].table_name} '
+                f'character for {self.kana["name"].upper()}'
             )
         elif self.state == "verify":
             # add message to user to verify character
             self.widgets["heading"].set_text(
-                f"Verify the {self.kana.table_name} character "
-                f"for {self.kana.characters[self.index].upper()}"
+                f'Verify the {self.kana["kana"].table_name} '
+                f'character for {self.kana["name"].upper()}'
             )
             # draw character here
-            character = self.kana.table[self.kana.characters[self.index]]
+            character = self.kana["kana"].table[self.kana["name"]]
             self.render_surface.blit(
-                self.kana.asset, (1260, 260), character["rect"],
+                self.kana["kana"].asset, (1260, 260), character["rect"],
             )
+        elif self.state == "done":
+            self.widgets["heading"].set_text("All kana drawn successfully")
 
         # render the widgets
         for widget_id, widget in self.widgets.items():
@@ -179,6 +224,18 @@ class GameScreen(Screen):
         # render the state widgets
         for widget in self.state_widgets[self.state]:
             widget.render()
+
+        if self.state == "done":
+            # if we're done don't draw the drawing surface
+            return
+
+        # always draw a bounding box where the user should draw in
+        self._pg_draw_line((430, 260), (430, 920), 10, (200, 200, 200))
+        self._pg_draw_line((100, 590), (760, 590), 10, (200, 200, 200))
+        self._pg_draw_rect((100, 260, 660, 660), 10)
+
+        # also always render the drawing surface
+        self.render_surface.blit(self.drawing_surface, (0, 0))
 
     def _pg_draw_line(self, top_left, bot_right, width, color=(0, 0, 0)):
         pygame.draw.line(
