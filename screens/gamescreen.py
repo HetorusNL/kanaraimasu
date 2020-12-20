@@ -3,7 +3,7 @@ from pygame.font import Font
 import random
 
 from .screen import Screen
-from utils import Kana, Settings
+from utils import Kana, Settings, Theme
 from widgets import Button, Heading, Text
 
 
@@ -75,6 +75,12 @@ class GameScreen(Screen):
             kana = Kana(kana_name)
             for kana_name in Settings.get(f"{kana_name}_kana"):
                 self.selected_kana.append({"kana": kana, "name": kana_name})
+
+        # handle case where no kana is selected
+        if not self.selected_kana:
+            self.state = "done"
+            self._clear_drawing_surface()
+            return
 
         # start with some initial index
         if self.randomize_kana:
@@ -212,8 +218,17 @@ class GameScreen(Screen):
             )
             # draw character here
             character = self.kana["kana"].table[self.kana["name"]]
+            if all(color < 50 for color in self.background_color):
+                kana = self.kana["kana"]
+                pygame.draw.rect(
+                    self.render_surface,
+                    (50, 50, 50),
+                    (1260, 260, kana.size_x, kana.size_y),
+                )
             self.render_surface.blit(
-                self.kana["kana"].asset, (1260, 260), character["rect"],
+                self.kana["kana"].asset,
+                (1260, 260),
+                character["rect"],
             )
         elif self.state == "done":
             self.widgets["heading"].set_text("All kana drawn successfully")
@@ -237,13 +252,16 @@ class GameScreen(Screen):
         # also always render the drawing surface
         self.render_surface.blit(self.drawing_surface, (0, 0))
 
-    def _pg_draw_line(self, top_left, bot_right, width, color=(0, 0, 0)):
+    def _pg_draw_line(self, top_left, bot_right, width, color=None):
+        color = color or self.foreground_color
         pygame.draw.line(
             self.render_surface, color, top_left, bot_right, width
         )
 
-    def _pg_draw_rect(self, rect, width, color=(0, 0, 0)):
+    def _pg_draw_rect(self, rect, width, color=None):
+        color = color or self.foreground_color
         pygame.draw.rect(self.render_surface, color, rect, width)
 
-    def _pg_draw_circle(self, center, radius, color=(0, 0, 0)):
+    def _pg_draw_circle(self, center, radius, color=None):
+        color = color or self.foreground_color
         pygame.draw.circle(self.drawing_surface, color, center, radius)

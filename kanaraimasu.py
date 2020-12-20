@@ -3,7 +3,7 @@ from pygame.locals import RESIZABLE
 import sys
 import time
 
-from utils import Settings
+from utils import Settings, Theme
 from screens import GameScreen, KanaSelectScreen, MenuScreen, SettingsScreen
 from widgets import Text
 
@@ -157,7 +157,7 @@ class Kanaraimasu:
         pygame.display.update()
 
     def show_splash_screen(self):
-        self.render_surface.fill((255, 255, 255))
+        self.render_surface.fill(Theme.get_color("background"))
         Text(
             self.render_surface, (0, 200, 1920, 400), "Kanaraimasu"
         ).set_font_size(200).render()

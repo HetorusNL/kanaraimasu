@@ -1,8 +1,13 @@
+from utils import Collections, Theme
+
+
 class Screen:
     def __init__(self, render_surface, surface_size):
         self.render_surface = render_surface
         self.surface_size = surface_size
-        self.background_color = (255, 255, 255)
+        self.foreground_color = Theme.get_color()
+        self.background_color = Theme.get_color("background")
+        Collections.register("screen", self)
 
     def prepare(self):
         pass
@@ -21,3 +26,7 @@ class Screen:
 
     def set_screen_size(self, screen_size):
         self.screen_size = screen_size
+
+    def reapply_theme(self, foreground_color, background_color):
+        self.foreground_color = foreground_color
+        self.background_color = background_color

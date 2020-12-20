@@ -2,7 +2,7 @@ import pygame
 from pygame.font import Font
 
 from .screen import Screen
-from utils import Settings
+from utils import Collections, Settings
 from widgets import Button, Checkbox, Heading
 
 
@@ -10,13 +10,12 @@ class SettingsScreen(Screen):
     def __init__(self, render_surface, surface_size):
         Screen.__init__(self, render_surface, surface_size)
 
+        self.dark_theme_checkbox = Checkbox(
+            self.render_surface,
+            (600, 200, 720, 100),
+            "Dark Theme",
+        )
         self.checkboxes = {
-            "dark_theme": {
-                "checkbox": Checkbox(
-                    self.render_surface, (600, 200, 720, 100), "Dark Theme",
-                ),
-                "setting": "dark_theme",
-            },
             "randomize_kana": {
                 "checkbox": Checkbox(
                     self.render_surface,
@@ -63,6 +62,7 @@ class SettingsScreen(Screen):
         for kana_widget_id, kana_widget in self.kana_widgets.items():
             checkbox = kana_widget["checkbox"]
             checkbox.selected = Settings.get(kana_widget["setting"])
+        self.dark_theme_checkbox.selected = Settings.get("theme") == "dark"
 
         self.widgets = {
             "heading_settings": Heading(
@@ -103,6 +103,14 @@ class SettingsScreen(Screen):
                     # checkbox is hit, save the new setting
                     Settings.set(checkbox_widget["setting"], checkbox.selected)
 
+            self.dark_theme_checkbox.on_mouse_release(event.pos)
+            if self.dark_theme_checkbox.rect_hit(event.pos):
+                # checkbox is hit, save the new setting
+                theme = ("light", "dark")[self.dark_theme_checkbox.selected]
+                Settings.set("theme", theme)
+                # reapply the theme to the GUI
+                Collections.reapply_theme()
+
     def draw(self):
         Screen.draw(self)
         for widget_id, widget in self.widgets.items():
@@ -115,3 +123,5 @@ class SettingsScreen(Screen):
 
         for checkbox_widget_id, checkbox_widget in self.checkboxes.items():
             checkbox_widget["checkbox"].render()
+
+        self.dark_theme_checkbox.render()

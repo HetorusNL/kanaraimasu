@@ -8,12 +8,16 @@ class Settings:
         "fullscreen": False,
         "fps": 60,
         "stroke_width": 10,
-        "dark_theme": False,
         "randomize_kana": True,
         "learn_hiragana": False,
         "learn_katakana": False,
         "hiragana_kana": [],
         "katakana_kana": [],
+        "themes": {
+            "dark": {"foreground": (255, 255, 255), "background": (0, 0, 0)},
+            "light": {"foreground": (0, 0, 0), "background": (255, 255, 255)},
+        },
+        "theme": "light",
     }
 
     @classmethod
@@ -57,4 +61,3 @@ class Settings:
     def store_settings_file(cls, settings):
         with open("settings.json", "w") as f:
             json.dump({**cls.defaults, **settings}, f, indent=2)
-

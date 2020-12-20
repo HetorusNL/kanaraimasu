@@ -1,6 +1,7 @@
 from pygame.font import Font
 
 from .widget import Widget
+from utils import Theme
 
 
 class Text(Widget):
@@ -15,11 +16,12 @@ class Text(Widget):
         surface,
         rect,
         text="",
-        color=(0, 0, 0),
+        color=None,
         width=10,
         align=ALIGN_CENTER,
     ):
-        Widget.__init__(self, surface, rect)
+        Widget.__init__(self, surface, rect, color)
+        color = color or Theme.get_color()
         self.text = text
         self.text_color = color
         self.width = width

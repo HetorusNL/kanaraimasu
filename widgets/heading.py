@@ -1,6 +1,7 @@
 import pygame
 
 from .text import Text
+from utils import Theme
 
 
 class Heading(Text):
@@ -9,11 +10,12 @@ class Heading(Text):
         surface,
         rect,
         text="",
-        color=(0, 0, 0),
+        color=None,
         width=10,
         align=Text.ALIGN_CENTER,
     ):
         Text.__init__(self, surface, rect, text, color, width, align)
+        color = color or Theme.get_color()
         self.line_color = color
 
     # setters for the properties, they return self so are chainable

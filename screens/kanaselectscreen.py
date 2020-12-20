@@ -53,6 +53,10 @@ class KanaSelectScreen(Screen):
         # update the rows and columns which could be wrong by default
         self._update_kana()
 
+    def prepare(self):
+        if all(color < 50 for color in self.background_color):
+            self.background_color = (50, 50, 50)
+
     def update(self, delta_time):
         Screen.update(self, delta_time)
 

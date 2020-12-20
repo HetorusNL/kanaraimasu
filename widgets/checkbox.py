@@ -1,6 +1,7 @@
 import pygame
 
 from .text import Text
+from utils import Theme
 
 
 class Checkbox(Text):
@@ -9,7 +10,7 @@ class Checkbox(Text):
         surface,
         rect,
         text="",
-        color=(0, 0, 0),
+        color=None,
         width=10,
         align=Text.ALIGN_CENTER,
         box_only=False,
@@ -37,6 +38,7 @@ class Checkbox(Text):
             ((sr.x, sr.y), (sr.x + sr.w, sr.y + sr.h)),
             ((sr.x + sr.w, sr.y), (sr.x, sr.y + sr.h)),
         ]
+        color = color or Theme.get_color()
         self.rect_color = color
         self.bounding_box = bounding_box
         self.selected = False
