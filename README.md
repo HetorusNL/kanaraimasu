@@ -13,13 +13,21 @@ You can download python from [python.org](https://www.python.org).
 
 Kanaraimasu depends on pygame, this can be installed by opening a command prompt / terminal and running the following command:
 
-Windows:
+#### Windows
 
 ```cmd
 python.exe -m pip install pygame
 ```
 
-Linux:
+If windows complains about "Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Manage App Execution Aliases." you can try using `py` instead of `python.exe`:
+
+```cmd
+py -m pip install pygame
+```
+
+Or you can try again after removing the shortcut from Settings > Manage App Execution Aliases, as mentioned in the message.
+
+#### Linux
 
 ```bash
 python3 -m pip install pygame
@@ -29,15 +37,21 @@ python3 -m pip install pygame
 
 Either click on `kanaraimasu.py` and run it with python.
 
-Or launch it from the console (command prompt / terminal) by running:
+Or launch it from the console (command prompt / terminal), making sure that the console is opened in the same directory as `kanaraimasu.py` resides, by running:
 
-Windows:
+#### Windows
 
 ```cmd
 python.exe kanaraimasu.py
 ```
 
-Linux:
+Or when `python.exe` is not working like in the previous step, use `py` instead of `python.exe`:
+
+```cmd
+py kanaraimasu.py
+```
+
+#### Linux
 
 ```bash
 python3 kanaraimasu.py
