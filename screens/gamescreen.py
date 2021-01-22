@@ -44,10 +44,16 @@ class GameScreen(Screen):
         )
 
         # widgets in the done state
+        self.score_widget = Text(
+            self.render_surface,
+            (0, 550, 1920, 200),
+            "Learned x kana while making y mistakes",
+        )
         done_widgets = [
             Text(
                 self.render_surface, (0, 400, 1920, 200), "Done!"
             ).set_font_size(200),
+            self.score_widget,
             Text(
                 self.render_surface,
                 (0, 650, 1920, 200),
@@ -78,8 +84,13 @@ class GameScreen(Screen):
             for kana_name in Settings.get(f"{kana_name}_kana"):
                 self.selected_kana.append({"kana": kana, "name": kana_name})
 
+        # parameters for the scoring system
+        self.total_kana = len(self.selected_kana)
+        self.wrong_kana = 0
+
         # handle case where no kana is selected
         if not self.selected_kana:
+            self._update_scoring_system()
             self.state = "done"
             self._clear_drawing_surface()
             return
@@ -118,8 +129,11 @@ class GameScreen(Screen):
         if correct:
             del self.selected_kana[self.index]
             if len(self.selected_kana) == 0:
+                self._update_scoring_system()
                 self.state = "done"
                 return
+        else:
+            self.wrong_kana += 1
 
         if self.randomize_kana:
             # if randomize, simply get a random index from the kana left
@@ -134,6 +148,12 @@ class GameScreen(Screen):
 
         # get a reference to the current kana
         self.kana = self.selected_kana[self.index]
+
+    def _update_scoring_system(self):
+        self.score_widget.set_text(
+            f"Learned {self.total_kana} kana "
+            f"while making {self.wrong_kana} mistakes"
+        )
 
     def mouse_event(self, event):
         Screen.mouse_event(self, event)
