@@ -16,7 +16,7 @@ class Collections:
         background_color = Theme.get_color("background")
         # process widgets
         for widget in cls._collections.get("widget", []):
-            widget.reapply_theme(foreground_color)
+            widget.reapply_theme()
         # process screens
         for screen in cls._collections.get("screen", []):
             screen.reapply_theme(foreground_color, background_color)

@@ -7,3 +7,5 @@ __pycache__/
 
 # don't store the user-specific settings file in repo
 settings.json
+# also not the settings backup file that is created on settings upgrade
+settings.json.bak

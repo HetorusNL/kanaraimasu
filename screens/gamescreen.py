@@ -15,32 +15,44 @@ class GameScreen(Screen):
         self.drawing_surface = pygame.Surface(self.surface_size)
 
         self.stroke_width = Settings.get("stroke_width")
+        self.bounding_box_color = Theme.get_color("foreground")
+        self.cross_color = Theme.get_color("secondary")
+        self.draw_color = Theme.get_color("draw")
 
         # ingame parameters
         self.pos = (0, 0)
 
         # widgets that are always present
         self.widgets = {
-            "heading": Heading(self.render_surface, (0, 0, 1920, 100)),
+            "heading": Heading(
+                self.render_surface, (0, 0, 1920, 100)
+            ).set_themed(),
             "button_menu": Button(
                 self.render_surface, (10, 10, 230, 80), "Menu"
-            ),
+            ).set_themed(),
         }
 
         # widgets in draw state
-        self.clear_button = Button(
-            self.render_surface, (860, 290, 200, 150), "Clear"
-        ).set_font_size(90)
+        self.clear_button = (
+            Button(self.render_surface, (860, 290, 200, 150), "Clear")
+            .set_font_size(90)
+            .set_themed()
+        )
         self.done_button = Button(
             self.render_surface, (860, 490, 200, 200), "Done"
-        )
+        ).set_themed()
 
         # widgets in the verify state
-        self.wrong_button = Button(
-            self.render_surface, (860, 290, 200, 150), "Wrong", (100, 0, 0)
-        ).set_font_size(80)
-        self.good_button = Button(
-            self.render_surface, (860, 490, 200, 200), "Good", (0, 100, 0)
+        self.wrong_button = (
+            Button(self.render_surface, (860, 290, 200, 150), "Wrong")
+            .set_font_size(80)
+            .set_themed()
+            .set_rect_color(Theme.get_color("bad"))
+        )
+        self.good_button = (
+            Button(self.render_surface, (860, 490, 200, 200), "Good")
+            .set_themed()
+            .set_rect_color(Theme.get_color("good"))
         )
 
         # widgets in the done state
@@ -48,22 +60,22 @@ class GameScreen(Screen):
             self.render_surface,
             (0, 550, 1920, 200),
             "Learned x kana while making y mistakes",
-        )
+        ).set_themed()
         done_widgets = [
-            Text(
-                self.render_surface, (0, 400, 1920, 200), "Done!"
-            ).set_font_size(200),
+            Text(self.render_surface, (0, 400, 1920, 200), "Done!")
+            .set_font_size(200)
+            .set_themed(),
             self.score_widget,
             Text(
                 self.render_surface,
                 (0, 650, 1920, 200),
                 "Go back to the menu to try again,",
-            ),
+            ).set_themed(),
             Text(
                 self.render_surface,
                 (0, 750, 1920, 200),
                 "or change the kana you want to learn",
-            ),
+            ).set_themed(),
         ]
 
         self.state_widgets = {
@@ -114,9 +126,6 @@ class GameScreen(Screen):
 
     def key_press(self, event):
         Screen.key_press(self, event)
-
-        if self.state == "draw":
-            self._draw_done()
 
     def _draw_done(self):
         self.state = "verify"
@@ -212,11 +221,11 @@ class GameScreen(Screen):
             (pos2[0], pos2[1] - self.stroke_width // 2),
             (pos1[0], pos1[1] - self.stroke_width // 2),
         ]
-        pygame.draw.polygon(self.drawing_surface, (0, 0, 255), a)
-        pygame.draw.polygon(self.drawing_surface, (0, 0, 255), b)
+        pygame.draw.polygon(self.drawing_surface, self.draw_color, a)
+        pygame.draw.polygon(self.drawing_surface, self.draw_color, b)
 
-        self._pg_draw_circle(pos1, self.stroke_width // 2, (0, 0, 255))
-        self._pg_draw_circle(pos2, self.stroke_width // 2, (0, 0, 255))
+        self._pg_draw_circle(pos1, self.stroke_width // 2, self.draw_color)
+        self._pg_draw_circle(pos2, self.stroke_width // 2, self.draw_color)
 
     def _clear_drawing_surface(self):
         self.drawing_surface.fill((255, 255, 255, 0))
@@ -267,9 +276,9 @@ class GameScreen(Screen):
             return
 
         # always draw a bounding box where the user should draw in
-        self._pg_draw_line((430, 260), (430, 920), 10, (200, 200, 200))
-        self._pg_draw_line((100, 590), (760, 590), 10, (200, 200, 200))
-        self._pg_draw_rect((100, 260, 660, 660), 10)
+        self._pg_draw_line((430, 260), (430, 920), 10, self.cross_color)
+        self._pg_draw_line((100, 590), (760, 590), 10, self.cross_color)
+        self._pg_draw_rect((100, 260, 660, 660), 10, self.bounding_box_color)
 
         # also always render the drawing surface
         self.render_surface.blit(self.drawing_surface, (0, 0))
@@ -287,3 +296,11 @@ class GameScreen(Screen):
     def _pg_draw_circle(self, center, radius, color=None):
         color = color or self.foreground_color
         pygame.draw.circle(self.drawing_surface, color, center, radius)
+
+    def reapply_theme(self, foreground_color, background_color):
+        Screen.reapply_theme(self, foreground_color, background_color)
+        self.wrong_button.set_rect_color(Theme.get_color("bad"))
+        self.good_button.set_rect_color(Theme.get_color("good"))
+        self.bounding_box_color = Theme.get_color("foreground")
+        self.cross_color = Theme.get_color("secondary")
+        self.draw_color = Theme.get_color("draw")

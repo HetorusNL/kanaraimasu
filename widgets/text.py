@@ -17,11 +17,12 @@ class Text(Widget):
         rect,
         text="",
         color=None,
+        themed=None,
         width=10,
         align=ALIGN_CENTER,
     ):
-        Widget.__init__(self, surface, rect, color)
-        color = color or Theme.get_color()
+        Widget.__init__(self, surface, rect, color, themed)
+        color = Theme.get_color() if (themed or color is None) else color
         self.text = text
         self.text_color = color
         self.width = width

@@ -16,10 +16,10 @@ class KanaSelectScreen(Screen):
                 self.render_surface,
                 (0, 0, 1920, 100),
                 f"Select Kana: {self.kana_name}",
-            ),
+            ).set_themed(),
             "button_back": Button(
                 self.render_surface, (10, 10, 230, 80), "Back"
-            ),
+            ).set_themed(),
         }
 
         self.checkboxes = {}
@@ -41,6 +41,7 @@ class KanaSelectScreen(Screen):
                 height,
             ),
             box_only=True,
+            themed=True,
         ).set_selected(kana not in kana_list)
 
         for kana, data in self.kana.table.items():

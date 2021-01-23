@@ -160,8 +160,10 @@ class Kanaraimasu:
         self.render_surface.fill(Theme.get_color("background"))
         Text(
             self.render_surface, (0, 200, 1920, 400), "Kanaraimasu"
-        ).set_font_size(200).render()
-        Text(self.render_surface, (0, 700, 1920, 200), "Loading...").render()
+        ).set_font_size(200).set_themed().render()
+        Text(
+            self.render_surface, (0, 700, 1920, 200), "Loading..."
+        ).set_themed().render()
         self.render()
 
     def s2r(self, pos):

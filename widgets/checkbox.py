@@ -11,6 +11,7 @@ class Checkbox(Text):
         rect,
         text="",
         color=None,
+        themed=None,
         width=10,
         align=Text.ALIGN_CENTER,
         box_only=False,
@@ -20,7 +21,7 @@ class Checkbox(Text):
         if box_only:
             # render only a box over the full rect provided
             self.square_rect = self.full_rect
-            Text.__init__(self, surface, rect, text, color, width)
+            Text.__init__(self, surface, rect, text, color, themed, width)
         else:
             # render a square box and the text behind that
             r = pygame.Rect(rect)
@@ -28,8 +29,9 @@ class Checkbox(Text):
             self.square_rect = pygame.Rect(r.x, r.y, r.h, r.h)
             # subtract the square checkbox (and 25%) from the text rect
             rect = (r.x + r.h + r.h * 0.25, r.y, r.w - r.h, r.h)
+            alignment = Text.ALIGN_LEFT_CENTER
             Text.__init__(
-                self, surface, rect, text, color, width, Text.ALIGN_LEFT_CENTER
+                self, surface, rect, text, color, themed, width, alignment
             )
 
         # the two lines that make a cross in the checkbox
@@ -38,7 +40,7 @@ class Checkbox(Text):
             ((sr.x, sr.y), (sr.x + sr.w, sr.y + sr.h)),
             ((sr.x + sr.w, sr.y), (sr.x, sr.y + sr.h)),
         ]
-        color = color or Theme.get_color()
+        color = Theme.get_color() if (themed or color is None) else color
         self.rect_color = color
         self.bounding_box = bounding_box
         self.selected = False

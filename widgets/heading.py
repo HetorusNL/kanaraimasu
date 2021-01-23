@@ -11,11 +11,12 @@ class Heading(Text):
         rect,
         text="",
         color=None,
+        themed=None,
         width=10,
         align=Text.ALIGN_CENTER,
     ):
-        Text.__init__(self, surface, rect, text, color, width, align)
-        color = color or Theme.get_color()
+        Text.__init__(self, surface, rect, text, color, themed, width, align)
+        color = Theme.get_color() if (themed or color is None) else color
         self.line_color = color
 
     # setters for the properties, they return self so are chainable

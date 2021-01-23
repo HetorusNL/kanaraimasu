@@ -11,13 +11,13 @@ class MenuScreen(Screen):
         self.widgets = {
             "heading_menu": Heading(
                 self.render_surface, (0, 0, 1920, 100), "Main menu"
-            ),
+            ).set_themed(),
             "button_play": Button(
                 self.render_surface, (760, 450, 400, 100), "Play"
-            ),
+            ).set_themed(),
             "button_settings": Button(
                 self.render_surface, (760, 600, 400, 100), "Settings"
-            ),
+            ).set_themed(),
         }
 
     def update(self, delta_time):
