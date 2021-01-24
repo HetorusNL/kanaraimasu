@@ -30,6 +30,11 @@ class GameScreen(Screen):
             "button_menu": Button(
                 self.render_surface, (10, 10, 230, 80), "Menu"
             ).set_themed(),
+            "progress_text": Text(
+                self.render_surface, (10, 125, 1900, 100), "X / Y"
+            )
+            .set_align(Text.ALIGN_RIGHT_CENTER)
+            .set_themed(),
         }
 
         # widgets in draw state
@@ -100,6 +105,9 @@ class GameScreen(Screen):
         self.total_kana = len(self.selected_kana)
         self.wrong_kana = 0
 
+        # update the progress system numbers
+        self._update_progress_system()
+
         # handle case where no kana is selected
         if not self.selected_kana:
             self._update_scoring_system()
@@ -141,6 +149,8 @@ class GameScreen(Screen):
                 self._update_scoring_system()
                 self.state = "done"
                 return
+            # update the progress system numbers
+            self._update_progress_system()
         else:
             self.wrong_kana += 1
 
@@ -163,6 +173,14 @@ class GameScreen(Screen):
             f"Learned {self.total_kana} kana "
             f"while making {self.wrong_kana} mistakes"
         )
+
+    def _update_progress_system(self):
+        if self.total_kana == 0:
+            text = "0 / 0"
+        else:
+            current_kana = self.total_kana - len(self.selected_kana) + 1
+            text = f"{current_kana} / {self.total_kana}"
+        self.widgets["progress_text"].set_text(text)
 
     def mouse_event(self, event):
         Screen.mouse_event(self, event)
