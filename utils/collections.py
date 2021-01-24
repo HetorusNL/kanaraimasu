@@ -1,6 +1,3 @@
-from .theme import Theme
-
-
 class Collections:
     _collections = {}
 
@@ -12,11 +9,6 @@ class Collections:
 
     @classmethod
     def reapply_theme(cls):
-        foreground_color = Theme.get_color()
-        background_color = Theme.get_color("background")
-        # process widgets
-        for widget in cls._collections.get("widget", []):
-            widget.reapply_theme()
-        # process screens
-        for screen in cls._collections.get("screen", []):
-            screen.reapply_theme(foreground_color, background_color)
+        for obj_type, obj_list in cls._collections.items():
+            for obj in obj_list:
+                obj.reapply_theme()

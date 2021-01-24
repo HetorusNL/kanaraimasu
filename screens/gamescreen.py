@@ -264,13 +264,6 @@ class GameScreen(Screen):
             )
             # draw character here
             character = self.kana["kana"].table[self.kana["name"]]
-            if all(color < 50 for color in self.background_color):
-                kana = self.kana["kana"]
-                pygame.draw.rect(
-                    self.render_surface,
-                    (50, 50, 50),
-                    (1260, 260, kana.size_x, kana.size_y),
-                )
             self.render_surface.blit(
                 self.kana["kana"].asset,
                 (1260, 260),
@@ -312,8 +305,8 @@ class GameScreen(Screen):
         color = color or self.foreground_color
         pygame.draw.circle(self.drawing_surface, color, center, radius)
 
-    def reapply_theme(self, foreground_color, background_color):
-        Screen.reapply_theme(self, foreground_color, background_color)
+    def reapply_theme(self):
+        Screen.reapply_theme(self)
         self.wrong_button.set_rect_color(Theme.get_color("bad"))
         self.good_button.set_rect_color(Theme.get_color("good"))
         self.bounding_box_color = Theme.get_color("foreground")

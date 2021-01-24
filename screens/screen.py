@@ -27,6 +27,6 @@ class Screen:
     def set_screen_size(self, screen_size):
         self.screen_size = screen_size
 
-    def reapply_theme(self, foreground_color, background_color):
-        self.foreground_color = foreground_color
-        self.background_color = background_color
+    def reapply_theme(self):
+        self.foreground_color = Theme.get_color("foreground")
+        self.background_color = Theme.get_color("background")

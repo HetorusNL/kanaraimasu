@@ -1,16 +1,28 @@
 from pygame.image import load
 
+from .settings import Settings
+
 
 class Kana:
     def __init__(self, table_name):
         self.tables = {
-            "hiragana": "assets/hiragana.png",
-            "katakana": "assets/katakana.png",
+            "hiragana": "assets/hiragana-{}.png",
+            "katakana": "assets/katakana-{}.png",
         }
         # store the table_name
         self.table_name = table_name
+        # (re)load the kana tables
+        self.reload_kana()
+
+    def reload_kana(self):
+        # see if we need to use the dark or light kana table
+        themes = Settings.get("themes")
+        theme = Settings.get("theme")
+        background = themes[theme]["background"]
+        dark = all(color < 127 for color in background)
+        img = self.tables[self.table_name].format("dark" if dark else "light")
         # load the selected asset
-        self.asset = load(self.tables[table_name]).convert_alpha()
+        self.asset = load(img).convert_alpha()
         # generate the kana table and properties
         self._generate_kana()
 
