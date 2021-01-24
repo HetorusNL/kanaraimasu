@@ -31,7 +31,7 @@ class GameScreen(Screen):
                 self.render_surface, (10, 10, 230, 80), "Menu"
             ).set_themed(),
             "progress_text": Text(
-                self.render_surface, (10, 125, 1900, 100), "X / Y"
+                self.render_surface, (10, 125, 1900, 100), "Completed: X / Y"
             )
             .set_align(Text.ALIGN_RIGHT_CENTER)
             .set_themed(),
@@ -145,12 +145,12 @@ class GameScreen(Screen):
         # handle correctly drawn kana
         if correct:
             del self.selected_kana[self.index]
+            # update the progress system numbers
+            self._update_progress_system()
             if len(self.selected_kana) == 0:
                 self._update_scoring_system()
                 self.state = "done"
                 return
-            # update the progress system numbers
-            self._update_progress_system()
         else:
             self.wrong_kana += 1
 
@@ -175,11 +175,8 @@ class GameScreen(Screen):
         )
 
     def _update_progress_system(self):
-        if self.total_kana == 0:
-            text = "0 / 0"
-        else:
-            current_kana = self.total_kana - len(self.selected_kana) + 1
-            text = f"{current_kana} / {self.total_kana}"
+        current_kana = self.total_kana - len(self.selected_kana)
+        text = f"Completed: {current_kana} / {self.total_kana}"
         self.widgets["progress_text"].set_text(text)
 
     def mouse_event(self, event):
