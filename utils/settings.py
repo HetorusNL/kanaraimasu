@@ -15,9 +15,9 @@ class Settings:
         "learn_kanji": False,
         "hiragana_kana": [],
         "katakana_kana": [],
-        "kanji_show_kun": False,
-        "kanji_show_on": False,
-        "kanji_show_dutch": False,
+        "kanji_show_kun": True,
+        "kanji_show_on": True,
+        "kanji_show_dutch": True,
         "themes": {
             "dark": {
                 "foreground": [255, 255, 255],
