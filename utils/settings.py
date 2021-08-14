@@ -12,8 +12,12 @@ class Settings:
         "randomize_kana": True,
         "learn_hiragana": False,
         "learn_katakana": False,
+        "learn_kanji": False,
         "hiragana_kana": [],
         "katakana_kana": [],
+        "kanji_show_kun": False,
+        "kanji_show_on": False,
+        "kanji_show_dutch": False,
         "themes": {
             "dark": {
                 "foreground": [255, 255, 255],

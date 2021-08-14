@@ -14,7 +14,7 @@ class SettingsScreen(Screen):
             "randomize_kana": {
                 "checkbox": Checkbox(
                     self.render_surface,
-                    (600, 550, 720, 100),
+                    (600, 450, 720, 100),
                     "Randomize Kana",
                 ).set_themed(),
                 "setting": "randomize_kana",
@@ -25,12 +25,12 @@ class SettingsScreen(Screen):
             "hiragana": {
                 "checkbox": Checkbox(
                     self.render_surface,
-                    (200, 700, 700, 100),
+                    (200, 600, 700, 100),
                     "Learn Hiragana",
                 ).set_themed(),
                 "button": Button(
                     self.render_surface,
-                    (1000, 700, 700, 100),
+                    (1000, 600, 700, 100),
                     "Select which kana",
                 ).set_themed(),
                 "setting": "learn_hiragana",
@@ -38,15 +38,28 @@ class SettingsScreen(Screen):
             "katakana": {
                 "checkbox": Checkbox(
                     self.render_surface,
-                    (200, 850, 700, 100),
+                    (200, 750, 700, 100),
                     "Learn Katakana",
                 ).set_themed(),
                 "button": Button(
                     self.render_surface,
-                    (1000, 850, 700, 100),
+                    (1000, 750, 700, 100),
                     "Select which kana",
                 ).set_themed(),
                 "setting": "learn_katakana",
+            },
+            "kanji": {
+                "checkbox": Checkbox(
+                    self.render_surface,
+                    (200, 900, 700, 100),
+                    "Learn Kanji",
+                ).set_themed(),
+                "button": Button(
+                    self.render_surface,
+                    (1000, 900, 700, 100),
+                    "Kanji options",
+                ).set_themed(),
+                "setting": "learn_kanji",
             },
         }
 
@@ -69,7 +82,7 @@ class SettingsScreen(Screen):
             ).set_themed(),
             "theme_text": Text(
                 self.render_surface,
-                (500, 200, 920, 100),
+                (500, 150, 920, 100),
                 f"Current theme: '{theme}'",
             ).set_themed(),
         }
@@ -81,20 +94,20 @@ class SettingsScreen(Screen):
             # somehow the theme in the settings file isn't available, reset
             print(f"theme {theme} is invalid! resetting to default")
             self.theme_index = 0
-            settings.set("theme", next(iter(themes)))
+            Settings.set("theme", next(iter(themes)))
             Collections.reapply_theme()
 
         # theme related widgets
         theme_name = list(themes.keys())[self.theme_index]
         apply_theme_text = f"Apply theme: {theme_name}"
         self.theme_left = Button(
-            self.render_surface, (300, 350, 100, 100), "<"
+            self.render_surface, (300, 275, 100, 100), "<"
         ).set_themed()
         self.theme_apply = Button(
-            self.render_surface, (500, 350, 920, 100), apply_theme_text
+            self.render_surface, (500, 275, 920, 100), apply_theme_text
         ).set_themed()
         self.theme_right = Button(
-            self.render_surface, (1520, 350, 100, 100), ">"
+            self.render_surface, (1520, 275, 100, 100), ">"
         ).set_themed()
 
     def update(self, delta_time):
@@ -118,7 +131,7 @@ class SettingsScreen(Screen):
                     Settings.set(kana_widget["setting"], checkbox.selected)
                 # check whether the buttons are hit
                 if kana_widget["button"].rect_hit(event.pos):
-                    return {"screen_id": f"kanaselectscreen{kana_widget_id}"}
+                    return {"screen_id": f"optionsfor{kana_widget_id}"}
 
             for checkbox_widget_id, checkbox_widget in self.checkboxes.items():
                 checkbox = checkbox_widget["checkbox"]

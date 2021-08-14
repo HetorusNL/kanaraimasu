@@ -1,0 +1,898 @@
+[
+    {
+        "id": "1",
+        "kanji": "一",
+        "kun": "hito",
+        "on": "ichi",
+        "dutch": "een"
+    },
+    {
+        "id": "2",
+        "kanji": "二",
+        "kun": "futa",
+        "on": "ni",
+        "dutch": "twee"
+    },
+    {
+        "id": "3",
+        "kanji": "三",
+        "kun": "mi",
+        "on": "san",
+        "dutch": "drie"
+    },
+    {
+        "id": "4",
+        "kanji": "四",
+        "kun": "yo, yon",
+        "on": "shi",
+        "dutch": "vier"
+    },
+    {
+        "id": "5",
+        "kanji": "五",
+        "kun": "itsu",
+        "on": "go",
+        "dutch": "vijf"
+    },
+    {
+        "id": "6",
+        "kanji": "六",
+        "kun": "mu, mui",
+        "on": "roku",
+        "dutch": "zes"
+    },
+    {
+        "id": "7",
+        "kanji": "七",
+        "kun": "nana, nano",
+        "on": "shichi",
+        "dutch": "zeven"
+    },
+    {
+        "id": "8",
+        "kanji": "八",
+        "kun": "ya, you",
+        "on": "hachi",
+        "dutch": "acht"
+    },
+    {
+        "id": "9",
+        "kanji": "九",
+        "kun": "kokono",
+        "on": "kyuu, ku",
+        "dutch": "negen"
+    },
+    {
+        "id": "10",
+        "kanji": "十",
+        "kun": "too, to",
+        "on": "juu, ji",
+        "dutch": "tien"
+    },
+    {
+        "id": "11",
+        "kanji": "人",
+        "kun": "hito",
+        "on": "jin, nin",
+        "dutch": "mens"
+    },
+    {
+        "id": "12",
+        "kanji": "大",
+        "kun": "oo",
+        "on": "dai, tai",
+        "dutch": "groot"
+    },
+    {
+        "id": "13",
+        "kanji": "天",
+        "kun": "ama",
+        "on": "ten",
+        "dutch": "hemel"
+    },
+    {
+        "id": "14",
+        "kanji": "夫",
+        "kun": "otto",
+        "on": "fuu, fu",
+        "dutch": "man"
+    },
+    {
+        "id": "15",
+        "kanji": "太",
+        "kun": "futo",
+        "on": "tai, ta",
+        "dutch": "dik"
+    },
+    {
+        "id": "16",
+        "kanji": "犬",
+        "kun": "inu",
+        "on": "ken",
+        "dutch": "hond"
+    },
+    {
+        "id": "17",
+        "kanji": "入",
+        "kun": "hai, i",
+        "on": "nyuu",
+        "dutch": "in"
+    },
+    {
+        "id": "18",
+        "kanji": "出",
+        "kun": "da, de",
+        "on": "shutsu",
+        "dutch": "uit"
+    },
+    {
+        "id": "19",
+        "kanji": "小",
+        "kun": "chii, ko, o",
+        "on": "shou",
+        "dutch": "klein"
+    },
+    {
+        "id": "20",
+        "kanji": "少",
+        "kun": "suku, suko",
+        "on": "shou",
+        "dutch": "weinig"
+    },
+    {
+        "id": "21",
+        "kanji": "多",
+        "kun": "oo",
+        "on": "ta",
+        "dutch": "veel"
+    },
+    {
+        "id": "22",
+        "kanji": "月",
+        "kun": "tsuki",
+        "on": "getsu, gatsu",
+        "dutch": "maan, maand"
+    },
+    {
+        "id": "23",
+        "kanji": "火",
+        "kun": "hi",
+        "on": "ka",
+        "dutch": "vuur"
+    },
+    {
+        "id": "24",
+        "kanji": "水",
+        "kun": "mizu",
+        "on": "sui",
+        "dutch": "water"
+    },
+    {
+        "id": "25",
+        "kanji": "木",
+        "kun": "ki, ko",
+        "on": "moku, boku",
+        "dutch": "boom, hout"
+    },
+    {
+        "id": "26",
+        "kanji": "金",
+        "kun": "kane, kana",
+        "on": "kin, kon",
+        "dutch": "goud, metaal"
+    },
+    {
+        "id": "27",
+        "kanji": "土",
+        "kun": "tsuchi",
+        "on": "do, to",
+        "dutch": "grond, aarde"
+    },
+    {
+        "id": "28",
+        "kanji": "日",
+        "kun": "hi, ka",
+        "on": "nichi, jitsu",
+        "dutch": "zon, dag"
+    },
+    {
+        "id": "29",
+        "kanji": "林",
+        "kun": "hayashi",
+        "on": "rin",
+        "dutch": "bos, woud (klein)"
+    },
+    {
+        "id": "30",
+        "kanji": "森",
+        "kun": "mori",
+        "on": "shin",
+        "dutch": "bos, woud (groot)"
+    },
+    {
+        "id": "31",
+        "kanji": "炎",
+        "kun": "honoo",
+        "on": "en",
+        "dutch": "vuur, vlam"
+    },
+    {
+        "id": "32",
+        "kanji": "山",
+        "kun": "yama",
+        "on": "san",
+        "dutch": "berg"
+    },
+    {
+        "id": "33",
+        "kanji": "石",
+        "kun": "ishi",
+        "on": "seki, shaku",
+        "dutch": "steen"
+    },
+    {
+        "id": "34",
+        "kanji": "岩",
+        "kun": "iwa",
+        "on": "gan",
+        "dutch": "rots"
+    },
+    {
+        "id": "35",
+        "kanji": "本",
+        "kun": "moto",
+        "on": "hon",
+        "dutch": "oorsprong, boek"
+    },
+    {
+        "id": "36",
+        "kanji": "休",
+        "kun": "yasu",
+        "on": "kyuu",
+        "dutch": "rust"
+    },
+    {
+        "id": "37",
+        "kanji": "体",
+        "kun": "karada",
+        "on": "tai",
+        "dutch": "lichaam"
+    },
+    {
+        "id": "38",
+        "kanji": "何",
+        "kun": "nani, nan",
+        "on": "ka",
+        "dutch": "wat"
+    },
+    {
+        "id": "39",
+        "kanji": "明",
+        "kun": "a, aka, aki",
+        "on": "myou, mei",
+        "dutch": "licht, helder"
+    },
+    {
+        "id": "40",
+        "kanji": "早",
+        "kun": "haya",
+        "on": "sa",
+        "dutch": "vroeg, snel"
+    },
+    {
+        "id": "41",
+        "kanji": "朝",
+        "kun": "asa",
+        "on": "chou",
+        "dutch": "ochtend"
+    },
+    {
+        "id": "42",
+        "kanji": "上",
+        "kun": "ue, kami, a, nobo",
+        "on": "jou",
+        "dutch": "boven, omhoog"
+    },
+    {
+        "id": "43",
+        "kanji": "下",
+        "kun": "shita, o, sa, kuda, shimo",
+        "on": "ka, ge",
+        "dutch": "beneden, omlaag"
+    },
+    {
+        "id": "44",
+        "kanji": "左",
+        "kun": "hidari",
+        "on": "sa",
+        "dutch": "links"
+    },
+    {
+        "id": "45",
+        "kanji": "右",
+        "kun": "migi",
+        "on": "yuu, u",
+        "dutch": "rechts"
+    },
+    {
+        "id": "46",
+        "kanji": "中",
+        "kun": "naka",
+        "on": "chuu, juu",
+        "dutch": "binnen, tussen, midden"
+    },
+    {
+        "id": "47",
+        "kanji": "刀",
+        "kun": "katana",
+        "on": "tou",
+        "dutch": "katana, mes"
+    },
+    {
+        "id": "48",
+        "kanji": "力",
+        "kun": "chikara",
+        "on": "ryoku, riki",
+        "dutch": "kracht"
+    },
+    {
+        "id": "49",
+        "kanji": "方",
+        "kun": "kata",
+        "on": "hou",
+        "dutch": "richting, manier, persoon"
+    },
+    {
+        "id": "50",
+        "kanji": "百",
+        "kun": "momo",
+        "on": "hyaku",
+        "dutch": "honderd, veel"
+    },
+    {
+        "id": "51",
+        "kanji": "千",
+        "kun": "chi",
+        "on": "sen",
+        "dutch": "duizend, veel"
+    },
+    {
+        "id": "52",
+        "kanji": "万",
+        "kun": "yorozu",
+        "on": "man",
+        "dutch": "tienduizend, alle"
+    },
+    {
+        "id": "53",
+        "kanji": "田",
+        "kun": "ta, da",
+        "on": "den",
+        "dutch": "akker, rijstveld"
+    },
+    {
+        "id": "54",
+        "kanji": "男",
+        "kun": "otoko",
+        "on": "dan, nan",
+        "dutch": "man"
+    },
+    {
+        "id": "55",
+        "kanji": "女",
+        "kun": "onna",
+        "on": "jo",
+        "dutch": "vrouw"
+    },
+    {
+        "id": "56",
+        "kanji": "夕",
+        "kun": "yuu",
+        "on": "seki",
+        "dutch": "avond"
+    },
+    {
+        "id": "57",
+        "kanji": "友",
+        "kun": "tomo",
+        "on": "yuu",
+        "dutch": "vriend"
+    },
+    {
+        "id": "58",
+        "kanji": "子",
+        "kun": "ko",
+        "on": "shi, su",
+        "dutch": "kind"
+    },
+    {
+        "id": "59",
+        "kanji": "好",
+        "kun": "su, kono",
+        "on": "kou",
+        "dutch": "goed, liefhebben"
+    },
+    {
+        "id": "60",
+        "kanji": "字",
+        "kun": "aza",
+        "on": "ji",
+        "dutch": "letter, schrift"
+    },
+    {
+        "id": "61",
+        "kanji": "学",
+        "kun": "mana",
+        "on": "gaku",
+        "dutch": "studie, leren"
+    },
+    {
+        "id": "62",
+        "kanji": "安",
+        "kun": "yasu",
+        "on": "an",
+        "dutch": "rust, goedkoop"
+    },
+    {
+        "id": "63",
+        "kanji": "川",
+        "kun": "kawa",
+        "on": "sen",
+        "dutch": "rivier"
+    },
+    {
+        "id": "64",
+        "kanji": "光",
+        "kun": "hikari, hika",
+        "on": "kou",
+        "dutch": "licht"
+    },
+    {
+        "id": "65",
+        "kanji": "元",
+        "kun": "moto",
+        "on": "gen, gan",
+        "dutch": "bron, oorsprong"
+    },
+    {
+        "id": "66",
+        "kanji": "空",
+        "kun": "sora, a, kara",
+        "on": "kuu",
+        "dutch": "lucht, leeg"
+    },
+    {
+        "id": "67",
+        "kanji": "気",
+        "kun": "iki",
+        "on": "ki, ke",
+        "dutch": "gas, aura, gevoel"
+    },
+    {
+        "id": "68",
+        "kanji": "口",
+        "kun": "kuchi",
+        "on": "ku, kou",
+        "dutch": "mond, in-/uitgang"
+    },
+    {
+        "id": "69",
+        "kanji": "古",
+        "kun": "furu",
+        "on": "ko",
+        "dutch": "oud"
+    },
+    {
+        "id": "70",
+        "kanji": "兄",
+        "kun": "ani",
+        "on": "kyou",
+        "dutch": "broer"
+    },
+    {
+        "id": "71",
+        "kanji": "言",
+        "kun": "i, koto",
+        "on": "gen, gon",
+        "dutch": "zeggen, woord"
+    },
+    {
+        "id": "72",
+        "kanji": "計",
+        "kun": "haka",
+        "on": "kei",
+        "dutch": "meten, berekenen"
+    },
+    {
+        "id": "73",
+        "kanji": "話",
+        "kun": "hanashi, hana",
+        "on": "wa",
+        "dutch": "verhaal, vertellen"
+    },
+    {
+        "id": "74",
+        "kanji": "語",
+        "kun": "kata",
+        "on": "go",
+        "dutch": "vertellen, taal"
+    },
+    {
+        "id": "75",
+        "kanji": "目",
+        "kun": "me",
+        "on": "moku",
+        "dutch": "oog"
+    },
+    {
+        "id": "76",
+        "kanji": "見",
+        "kun": "mi",
+        "on": "ken",
+        "dutch": "kijk"
+    },
+    {
+        "id": "77",
+        "kanji": "覚",
+        "kun": "obo, sa",
+        "on": "kaku",
+        "dutch": "onthouden, voelen"
+    },
+    {
+        "id": "78",
+        "kanji": "自",
+        "kun": "mizuka",
+        "on": "ji, shi",
+        "dutch": "zelf, van nature"
+    },
+    {
+        "id": "79",
+        "kanji": "首",
+        "kun": "kubi",
+        "on": "shutsu",
+        "dutch": "nek"
+    },
+    {
+        "id": "80",
+        "kanji": "立",
+        "kun": "ta",
+        "on": "ritsu",
+        "dutch": "staan"
+    },
+    {
+        "id": "81",
+        "kanji": "音",
+        "kun": "oto",
+        "on": "on",
+        "dutch": "geluid"
+    },
+    {
+        "id": "82",
+        "kanji": "暗",
+        "kun": "kura",
+        "on": "an",
+        "dutch": "donker"
+    },
+    {
+        "id": "83",
+        "kanji": "親",
+        "kun": "oya, shita",
+        "on": "shin",
+        "dutch": "ouder, close"
+    },
+    {
+        "id": "84",
+        "kanji": "耳",
+        "kun": "mimi",
+        "on": "ji",
+        "dutch": "oor"
+    },
+    {
+        "id": "85",
+        "kanji": "手",
+        "kun": "te",
+        "on": "shu",
+        "dutch": "hand"
+    },
+    {
+        "id": "86",
+        "kanji": "心",
+        "kun": "kokoro",
+        "on": "shin",
+        "dutch": "hart"
+    },
+    {
+        "id": "87",
+        "kanji": "思",
+        "kun": "omo",
+        "on": "shi",
+        "dutch": "denken"
+    },
+    {
+        "id": "88",
+        "kanji": "意",
+        "kun": ".",
+        "on": "i",
+        "dutch": "gedachten"
+    },
+    {
+        "id": "89",
+        "kanji": "息",
+        "kun": "iki",
+        "on": "soku",
+        "dutch": "adem"
+    },
+    {
+        "id": "90",
+        "kanji": "忘",
+        "kun": "wasu",
+        "on": "bou",
+        "dutch": "vergeten"
+    },
+    {
+        "id": "91",
+        "kanji": "急",
+        "kun": "iso",
+        "on": "kyuu",
+        "dutch": "haast"
+    },
+    {
+        "id": "92",
+        "kanji": "門",
+        "kun": "kado",
+        "on": "mon",
+        "dutch": "poort"
+    },
+    {
+        "id": "93",
+        "kanji": "問",
+        "kun": "to",
+        "on": "mon",
+        "dutch": "vragen"
+    },
+    {
+        "id": "94",
+        "kanji": "間",
+        "kun": "ma",
+        "on": "kan",
+        "dutch": "interval, ruimte"
+    },
+    {
+        "id": "95",
+        "kanji": "聞",
+        "kun": "ki",
+        "on": "bun",
+        "dutch": "luisteren"
+    },
+    {
+        "id": "96",
+        "kanji": "開",
+        "kun": "a, hira",
+        "on": "kai",
+        "dutch": "open"
+    },
+    {
+        "id": "97",
+        "kanji": "閉",
+        "kun": "shi, to",
+        "on": "hei",
+        "dutch": "dicht"
+    },
+    {
+        "id": "98",
+        "kanji": "父",
+        "kun": "chichi",
+        "on": "fu",
+        "dutch": "vader"
+    },
+    {
+        "id": "99",
+        "kanji": "母",
+        "kun": "haha",
+        "on": "bo",
+        "dutch": "moeder"
+    },
+    {
+        "id": "100",
+        "kanji": "姉",
+        "kun": "ane",
+        "on": "shi",
+        "dutch": "zus"
+    },
+    {
+        "id": "101",
+        "kanji": "妹",
+        "kun": "imouto",
+        "on": "mai",
+        "dutch": "zusje"
+    },
+    {
+        "id": "102",
+        "kanji": "弟",
+        "kun": "otouto",
+        "on": "dai, tei",
+        "dutch": "broertje"
+    },
+    {
+        "id": "103",
+        "kanji": "名",
+        "kun": "na",
+        "on": "mei, myou",
+        "dutch": "naam"
+    },
+    {
+        "id": "104",
+        "kanji": "前",
+        "kun": "mae",
+        "on": "zen",
+        "dutch": "voor"
+    },
+    {
+        "id": "105",
+        "kanji": "後",
+        "kun": "ushi, ato, oku",
+        "on": "go, kou",
+        "dutch": "na, achter"
+    },
+    {
+        "id": "106",
+        "kanji": "王",
+        "kun": ".",
+        "on": "ou",
+        "dutch": "koning"
+    },
+    {
+        "id": "107",
+        "kanji": "玉",
+        "kun": "tama, dama",
+        "on": "gyou",
+        "dutch": "bal, juweel"
+    },
+    {
+        "id": "108",
+        "kanji": "生",
+        "kun": "u, i, ha, nama",
+        "on": "sei, shou",
+        "dutch": "leven, geboorte"
+    },
+    {
+        "id": "109",
+        "kanji": "先",
+        "kun": "saki, ma",
+        "on": "sen",
+        "dutch": "vorig, eerder"
+    },
+    {
+        "id": "110",
+        "kanji": "校",
+        "kun": ".",
+        "on": "kou",
+        "dutch": "school"
+    },
+    {
+        "id": "111",
+        "kanji": "外",
+        "kun": "soto, hoka, hazu",
+        "on": "gai",
+        "dutch": "buiten"
+    },
+    {
+        "id": "112",
+        "kanji": "内",
+        "kun": "uchi",
+        "on": "nai",
+        "dutch": "binnen"
+    },
+    {
+        "id": "113",
+        "kanji": "国",
+        "kun": "kuni",
+        "on": "koku",
+        "dutch": "land"
+    },
+    {
+        "id": "115",
+        "kanji": "今",
+        "kun": "ima",
+        "on": "kon, ko, (kin)",
+        "dutch": "nu"
+    },
+    {
+        "id": "116",
+        "kanji": "高",
+        "kun": "taka",
+        "on": "kou",
+        "dutch": "hoog"
+    },
+    {
+        "id": "117",
+        "kanji": "書",
+        "kun": "ka, ga",
+        "on": "shou",
+        "dutch": "schrijven"
+    },
+    {
+        "id": "118",
+        "kanji": "週",
+        "kun": ".",
+        "on": "shuu",
+        "dutch": "week"
+    },
+    {
+        "id": "119",
+        "kanji": "店",
+        "kun": "mise",
+        "on": "ten",
+        "dutch": "winkel"
+    },
+    {
+        "id": "120",
+        "kanji": "新",
+        "kun": "atara, ara, nii",
+        "on": "shin",
+        "dutch": "nieuw"
+    },
+    {
+        "id": "121",
+        "kanji": "社",
+        "kun": "yashiro",
+        "on": "sha",
+        "dutch": "shinto heiligdom/bedrijf"
+    },
+    {
+        "id": "122",
+        "kanji": "駅",
+        "kun": ".",
+        "on": "eki",
+        "dutch": "station"
+    },
+    {
+        "id": "e1",
+        "kanji": "曜",
+        "kun": ".",
+        "on": "you",
+        "dutch": "dag"
+    },
+    {
+        "id": "e2",
+        "kanji": "信",
+        "kun": ".",
+        "on": "shin",
+        "dutch": "betrouwbaarheid"
+    },
+    {
+        "id": "e3",
+        "kanji": "作",
+        "kun": "tsuku",
+        "on": "saku, sa",
+        "dutch": "maken"
+    },
+    {
+        "id": "e4",
+        "kanji": "使",
+        "kun": "tsuka",
+        "on": "shin",
+        "dutch": "gebruik"
+    },
+    {
+        "id": "e5",
+        "kanji": "待",
+        "kun": "ma",
+        "on": "tai",
+        "dutch": "wachten"
+    },
+    {
+        "id": "e6",
+        "kanji": "負",
+        "kun": "ma",
+        "on": "fu",
+        "dutch": "verlies"
+    },
+    {
+        "id": "e7",
+        "kanji": "洗",
+        "kun": "ara",
+        "on": "sen",
+        "dutch": "wassen"
+    }
+]

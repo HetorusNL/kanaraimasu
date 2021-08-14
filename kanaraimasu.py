@@ -4,7 +4,13 @@ import sys
 import time
 
 from utils import Settings, Theme
-from screens import GameScreen, KanaSelectScreen, MenuScreen, SettingsScreen
+from screens import (
+    GameScreen,
+    KanaSelectScreen,
+    KanjiOptionsScreen,
+    MenuScreen,
+    SettingsScreen,
+)
 from widgets import Text
 
 try:
@@ -40,11 +46,14 @@ class Kanaraimasu:
         # initialize the screens
         self.screens = {
             "gamescreen": GameScreen(self.render_surface, self.render_size),
-            "kanaselectscreenhiragana": KanaSelectScreen(
+            "optionsforhiragana": KanaSelectScreen(
                 self.render_surface, self.render_size, "hiragana"
             ),
-            "kanaselectscreenkatakana": KanaSelectScreen(
+            "optionsforkatakana": KanaSelectScreen(
                 self.render_surface, self.render_size, "katakana"
+            ),
+            "optionsforkanji": KanjiOptionsScreen(
+                self.render_surface, self.render_size
             ),
             "menuscreen": MenuScreen(self.render_surface, self.render_size),
             "settingsscreen": SettingsScreen(

@@ -27,6 +27,7 @@ class Text(Widget):
         self.text_color = color
         self.width = width
         self.font_size = 100
+        self.font_name = None
         self.align = align
         self.fonts = {}
 
@@ -47,6 +48,10 @@ class Text(Widget):
         self.font_size = size
         return self
 
+    def set_font_name(self, font_name):
+        self.font_name = font_name
+        return self
+
     def set_align(self, align):
         self.align = align
         return self
@@ -57,9 +62,10 @@ class Text(Widget):
         self.draw_text()
 
     def draw_text(self):
-        if not self.fonts.get(str(self.font_size)):
-            self.fonts[str(self.font_size)] = Font(None, self.font_size)
-        font = self.fonts[str(self.font_size)]
+        font_id = str(self.font_name) + str(self.font_size)
+        if not self.fonts.get(font_id):
+            self.fonts[font_id] = Font(self.font_name, self.font_size)
+        font = self.fonts[font_id]
         text = font.render(self.text, True, self.text_color)
         text_rect = text.get_rect()
         if self.align == self.ALIGN_LEFT_TOP:

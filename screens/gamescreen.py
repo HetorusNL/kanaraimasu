@@ -3,7 +3,7 @@ from pygame.font import Font
 import random
 
 from .screen import Screen
-from utils import Kana, Settings, Theme
+from utils import Kana, Kanji, Settings, Theme
 from widgets import Button, Heading, Text
 
 
@@ -36,6 +36,26 @@ class GameScreen(Screen):
             .set_align(Text.ALIGN_RIGHT_CENTER)
             .set_themed(),
         }
+
+        # widgets that are kanji related
+        self.kanji_widgets = [
+            # these are used to show up to 3 lines of kanji information
+            Text(
+                self.render_surface,
+                (1160, i, 660, 100),
+            )
+            .set_font_size(65)
+            .set_align(Text.ALIGN_LEFT_TOP)
+            .set_themed()
+            for i in [225, 285, 355]
+        ]
+        self.kanji_widgets.append(
+            # this is the kanji character itself
+            Text(self.render_surface, (1160, 420, 660, 660))
+            .set_font_size(500)
+            .set_font_name("assets/font/KanjiStrokeOrders_v2.016.ttf")
+            .set_themed()
+        )
 
         # widgets in draw state
         self.clear_button = (
@@ -100,7 +120,10 @@ class GameScreen(Screen):
                 continue
             for kana_name in Settings.get(f"{kana_name}_kana"):
                 self.selected_kana.append({"kana": kana, "name": kana_name})
-
+        if Settings.get("learn_kanji"):
+            kanji = Kanji("kanji.json")
+            for kanji_entry in kanji.kanji_dict:
+                self.selected_kana.append({**kanji_entry, "name": "kanji"})
         # parameters for the scoring system
         self.total_kana = len(self.selected_kana)
         self.wrong_kana = 0
@@ -125,6 +148,11 @@ class GameScreen(Screen):
 
         # get a reference to the current kana
         self.kana = self.selected_kana[self.index]
+
+        # get kanji settings
+        self.kanji_show = {}
+        for item in ["kun", "on", "dutch"]:
+            self.kanji_show[item] = Settings.get(f"kanji_show_{item}")
 
         self.state = "draw"
         self._clear_drawing_surface()
@@ -250,25 +278,43 @@ class GameScreen(Screen):
     def draw(self):
         Screen.draw(self)
 
+        if self.state in ["draw", "verify"] and self.kana["name"] == "kanji":
+            item_count = 0
+            for item in ["kun", "on", "dutch"]:
+                if self.kanji_show[item]:
+                    self.kanji_widgets[item_count].set_text(
+                        f"{item}: {self.kana[item]}"
+                    ).render()
+                    item_count += 1
+
         if self.state == "draw":
             # add message to user to draw character
-            self.widgets["heading"].set_text(
-                f'Draw the {self.kana["kana"].table_name} '
-                f'character for {self.kana["name"].upper()}'
-            )
+            if self.kana["name"] == "kanji":
+                self.widgets["heading"].set_text(
+                    "Draw the following kanji character"
+                )
+            else:
+                self.widgets["heading"].set_text(
+                    f'Draw the {self.kana["kana"].table_name} '
+                    f'character for {self.kana["name"].upper()}'
+                )
         elif self.state == "verify":
             # add message to user to verify character
-            self.widgets["heading"].set_text(
-                f'Verify the {self.kana["kana"].table_name} '
-                f'character for {self.kana["name"].upper()}'
-            )
-            # draw character here
-            character = self.kana["kana"].table[self.kana["name"]]
-            self.render_surface.blit(
-                self.kana["kana"].asset,
-                (1260, 260),
-                character["rect"],
-            )
+            if self.kana["name"] == "kanji":
+                self.widgets["heading"].set_text("Verify the kanji character")
+                self.kanji_widgets[3].set_text(self.kana["kanji"]).render()
+            else:
+                self.widgets["heading"].set_text(
+                    f'Verify the {self.kana["kana"].table_name} '
+                    f'character for {self.kana["name"].upper()}'
+                )
+                # draw character here
+                character = self.kana["kana"].table[self.kana["name"]]
+                self.render_surface.blit(
+                    self.kana["kana"].asset,
+                    (1260, 260),
+                    character["rect"],
+                )
         elif self.state == "done":
             self.widgets["heading"].set_text("All kana drawn successfully")
 
