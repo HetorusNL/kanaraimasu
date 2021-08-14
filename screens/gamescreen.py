@@ -47,11 +47,11 @@ class GameScreen(Screen):
             .set_font_size(65)
             .set_align(Text.ALIGN_LEFT_TOP)
             .set_themed()
-            for i in [225, 285, 355]
+            for i in [225, 285, 345]
         ]
         self.kanji_widgets.append(
             # this is the kanji character itself
-            Text(self.render_surface, (1160, 420, 660, 660))
+            Text(self.render_surface, (1160, 400, 660, 660))
             .set_font_size(500)
             .set_font_name("assets/font/KanjiStrokeOrders_v2.016.ttf")
             .set_themed()
