@@ -12,5 +12,5 @@ class Kanji:
 
     def reload_kanji(self):
         # load the dictionary name
-        with open(f"assets/{self.dict_name}") as f:
+        with open(f"assets/{self.dict_name}", encoding="utf-8") as f:
             self.kanji_dict = json.load(f)
