@@ -9,3 +9,6 @@ __pycache__/
 settings.json
 # also not the settings backup file that is created on settings upgrade
 settings.json.bak
+
+# ignore the build pygbag (pygame + wasm) folder
+build/

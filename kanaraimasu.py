@@ -22,7 +22,7 @@ pygame.init()
 
 
 class Kanaraimasu:
-    def __init__(self):
+    def __init__(self, run_async=False):
         # set the display name
         pygame.display.set_caption("Kanaraimasu - Learn to draw kana")
 
@@ -67,8 +67,9 @@ class Kanaraimasu:
         self.game_time = time.time()
 
         # run the game loop forever
-        while True:
-            self.game_loop()
+        if not run_async:
+            while True:
+                self.game_loop()
 
     def game_loop(self):
         # process timing stuff
