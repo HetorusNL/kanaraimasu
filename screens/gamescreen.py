@@ -115,9 +115,9 @@ class GameScreen(Screen):
         self.selected_kana = []
         kana_names = ["hiragana", "katakana"]
         for kana_name in kana_names:
-            kana = Kana(kana_name)
             if not Settings.get(f"learn_{kana_name}"):
                 continue
+            kana = Kana(kana_name)
             for kana_name in Settings.get(f"{kana_name}_kana"):
                 self.selected_kana.append({"kana": kana, "name": kana_name})
         if Settings.get("learn_kanji"):

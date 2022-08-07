@@ -28,6 +28,7 @@ class Kanaraimasu:
 
         # initialize the game parameters
         self.fps = Settings.get("fps")
+        self.run_async = run_async
 
         # initialize the screen and render surfaces
         width = Settings.get("width")
@@ -87,7 +88,7 @@ class Kanaraimasu:
         # this draws the render_surface onto the pg_screen
         self.render()
 
-        if self.fps != 0:
+        if not self.run_async and self.fps != 0:
             target_sleep = 1000 / self.fps
             delta = (time.time() - self.game_time) * 1000
             if target_sleep - delta > 0:
