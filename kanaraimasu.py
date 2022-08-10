@@ -3,7 +3,8 @@ from pygame.locals import RESIZABLE
 import sys
 import time
 
-from utils import Settings, Theme
+from assets import AssetsPreparation
+from utils import Collections, Settings, Theme
 from screens import (
     GameScreen,
     KanaSelectScreen,
@@ -22,7 +23,7 @@ pygame.init()
 
 
 class Kanaraimasu:
-    def __init__(self, run_async=False):
+    def __init__(self, run_async=False, prepare_assets_only=False):
         # set the display name
         pygame.display.set_caption("Kanaraimasu - Learn to draw kana")
 
@@ -41,6 +42,10 @@ class Kanaraimasu:
 
         self.render_size = (1920, 1080)
         self.render_surface = pygame.Surface(self.render_size)
+
+        self.prepare_assets()
+        if prepare_assets_only:
+            return
 
         self.show_splash_screen()
 
@@ -137,6 +142,12 @@ class Kanaraimasu:
     def process_results(self):
         if self.results.get("screen_id"):
             self.set_screen_id(self.results["screen_id"])
+        action = self.results.get("action")
+        if action == "reapply_theme":
+            # reload the assets
+            self.prepare_assets()
+            # reapply the (new) theme to the GUI
+            Collections.reapply_theme()
 
     def set_screen_id(self, screen_id):
         self.screen_id = screen_id
@@ -167,13 +178,13 @@ class Kanaraimasu:
 
         pygame.display.update()
 
-    def show_splash_screen(self):
+    def show_splash_screen(self, loading_text="Loading..."):
         self.render_surface.fill(Theme.get_color("background"))
         Text(
             self.render_surface, (0, 200, 1920, 400), "Kanaraimasu"
         ).set_font_size(200).set_themed().render()
         Text(
-            self.render_surface, (0, 700, 1920, 200), "Loading..."
+            self.render_surface, (0, 700, 1920, 200), loading_text
         ).set_themed().render()
         self.render()
 
@@ -188,6 +199,11 @@ class Kanaraimasu:
         x = pos[0] * self.screen_size[0] / self.render_size[0]
         y = pos[1] * self.screen_size[1] / self.render_size[1]
         return (x, y)
+
+    def prepare_assets(self):
+        self.show_splash_screen("Preparing assets...")
+
+        AssetsPreparation().run()
 
 
 if __name__ == "__main__":

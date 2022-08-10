@@ -106,6 +106,8 @@ class Kana:
         # set kana image size, within the asset, in pixels
         self.size_x = 500
         self.size_y = 625
+        self.img_width = self.size_x - 10
+        self.img_height = self.size_y - 10
 
         # reset the kana table to default and precalculate some properties
         self._reset_kana()
@@ -127,6 +129,6 @@ class Kana:
         table[name]["rect"] = (
             table[name]["x"] + 10,
             table[name]["y"],
-            self.size_x - 10,
-            self.size_y - 10,
+            self.img_width,
+            self.img_height,
         )

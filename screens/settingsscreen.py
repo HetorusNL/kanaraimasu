@@ -155,8 +155,7 @@ class SettingsScreen(Screen):
                 self.widgets["theme_text"].set_text(
                     f"Current theme: '{theme}'"
                 )
-                # reapply the (new) theme to the GUI
-                Collections.reapply_theme()
+                return {"action": "reapply_theme"}
 
     def draw(self):
         Screen.draw(self)
