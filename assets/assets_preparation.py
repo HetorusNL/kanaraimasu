@@ -4,7 +4,7 @@ import os
 import shutil
 
 from pygame import Surface
-from pygame.image import save
+from pygame.image import load, save
 
 from utils import Kana, Settings, Theme
 
@@ -42,6 +42,10 @@ class AssetsPreparation:
         # generate and store the asset hash
         self._asset_hash = self._generate_asset_hash()
         self._write_asset_hash()
+
+    def load_asset(self, table_name, character):
+        filename = f"{self.cache_dir}/{table_name}-{character}.png"
+        return load(filename).convert_alpha()
 
     def _read_asset_hash(self):
         try:
