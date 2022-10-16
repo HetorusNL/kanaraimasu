@@ -9,7 +9,6 @@ async def main():
     i = 0
     while True:
         i += 1
-        print(f"running cycle: {i}")
         game_instance.game_loop()
         await asyncio.sleep(0)
 

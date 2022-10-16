@@ -297,7 +297,6 @@ class GameScreen(Screen):
         # only redraw the drawing_surface
         if self.update_drawing_surface_only:
             self._update_drawing_surface()
-            print("update drawing surface only")
             return
 
         Screen.draw(self)

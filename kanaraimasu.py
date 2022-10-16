@@ -1,3 +1,4 @@
+import asyncio
 import pygame
 from pygame.locals import RESIZABLE
 import sys
@@ -187,6 +188,7 @@ class Kanaraimasu:
             self.render_surface, (0, 700, 1920, 200), loading_text
         ).set_themed().render()
         self.render()
+        asyncio.sleep(0)
 
     def s2r(self, pos):
         # convert screen coordinate/pos to render surface coordinate/pos
