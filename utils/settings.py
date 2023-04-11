@@ -1,4 +1,5 @@
 import json
+import typing
 
 
 class Settings:
@@ -74,22 +75,22 @@ class Settings:
                 # otherwise return the value from defaults
                 value = cls.defaults.get(setting)
 
-        print(f"[ Settings.get ] {setting}: {value}")
+        cls._print("[ Settings.get ]", setting, value)
         return value
 
     @classmethod
-    def set(cls, setting, value):
+    def set(cls, setting: str, value: typing.Any):
         settings = cls.load_settings_file()
-        print(f"[ Setting.set ] {setting}: {value}")
+        cls._print("[ Setting.set ]", setting, value)
         settings[setting] = value
         cls.store_settings_file(settings)
 
     @classmethod
-    def load_settings_file(cls):
+    def load_settings_file(cls) -> dict[str, typing.Any]:
         try:
             # try to open the settings file with fallback to initial values
             with open("settings.json") as f:
-                settings = json.load(f)
+                settings: dict = json.load(f)
 
             settings_version = settings.get("settings_version", 0)
             # if older settings version, make backup and load initial set
@@ -117,6 +118,14 @@ class Settings:
         return settings
 
     @classmethod
-    def store_settings_file(cls, settings):
+    def store_settings_file(cls, settings: dict[str, typing.Any]) -> None:
         with open("settings.json", "w") as f:
             json.dump({**cls.defaults, **settings}, f, indent=2)
+
+    @classmethod
+    def _print(cls, action: str, setting: str, value: typing.Any) -> None:
+        # reduce print statements by ignoring certain settings
+        settings_to_ignore = ["themes", "theme"]
+        if setting in settings_to_ignore:
+            return
+        print(f"{action} {setting}: {value}")

@@ -1,6 +1,9 @@
 # ignore the VSCode local config files
 .vscode/
 
+# ignore the virtual environment
+.venv/
+
 # ignore the generated python cache folders
 __pycache__/
 */__pycache__/

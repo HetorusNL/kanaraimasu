@@ -1,2 +1,18 @@
 [tool.black]
 line-length = 79
+
+[tool.poetry]
+name = "kanaraimasu"
+version = "0.1.0"
+description = "Learn to draw Japanese kana!"
+authors = ["HetorusNL"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+black = "^23.3.0"
+pygame = "^2.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

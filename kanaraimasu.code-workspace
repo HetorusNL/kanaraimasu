@@ -1,7 +1,13 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	]
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.rulers": [79],
+    "python.analysis.typeCheckingMode": "basic",
+    "python.formatting.provider": "black"
+  }
 }
