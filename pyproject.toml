@@ -12,6 +12,7 @@ readme = "README.md"
 python = "^3.10"
 black = "^23.3.0"
 pygame = "^2.3.0"
+pygbag = "^0.7.1"
 
 [build-system]
 requires = ["poetry-core"]
